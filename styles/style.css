@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    height: 10px;
+    width: 12px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #fe5454;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #df3939;
+  }
+}
+
+.loader {
+  height: 90vh;
+  position: relative;
+}
+
+.loader .cube {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chakra-button:active,
+.chakra-button:visited,
+.chakra-button:focus {
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
+}
