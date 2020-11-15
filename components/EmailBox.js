@@ -48,7 +48,7 @@ const EmailBox = () => {
           </Flex>
           <Flex>
             <Text color={tbtn} fontSize="sm">
-              Respectable madam, I am sorry to ffifji
+              Respectable madam, I am sorry to infor... 
             </Text>
           </Flex>
         </Box>
