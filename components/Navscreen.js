@@ -22,7 +22,7 @@ function Navscreen(props) {
 
   return (
     <Center>
-      <Box justify="center" mb="200px">
+      <Box justify="center" my="50px">
         <VStack>
           <Linkpage
             page={"/"}
