@@ -31,7 +31,11 @@ const Signin = () => {
       <Center>
         <Box w={"90%"}>
           <Flex justifyContent="center" pt={10}>
-            <AiFillThunderbolt color={btn} fontSize={"80"} />
+            <AiFillThunderbolt
+              color={btn}
+              fontSize={"80"}
+              onClick={toggleColorMode}
+            />
           </Flex>
           <Box mt={10}>
             <Text
