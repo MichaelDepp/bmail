@@ -8,6 +8,7 @@ import {
   Center,
   Button,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import Signlayout from "../components/Signlayout";
 import { AiFillThunderbolt } from "react-icons/ai";
 
@@ -110,16 +111,32 @@ const Signin = () => {
                 Sign In
               </Button>
             </Center>
-            <Text
-              mt={3}
-              textAlign="center"
-              color={sbtn}
-              fontFamily={"Poppins"}
-              fontWeight="medium"
-              fontSize={"sm"}
-            >
-              Don't have an account ? Sign Up
-            </Text>
+            <Center>
+              <Text
+                mt={3}
+                textAlign="center"
+                color={sbtn}
+                fontFamily={"Poppins"}
+                fontWeight="medium"
+                fontSize={"sm"}
+              >
+                Don't have an account ?
+              </Text>
+              <Link href={"/signup"}>
+                <Text
+                  cursor="pointer"
+                  mt={3}
+                  pl={1}
+                  textAlign="center"
+                  color={btn}
+                  fontFamily={"Poppins"}
+                  fontWeight="semi"
+                  fontSize={"sm"}
+                >
+                  Sign Up
+                </Text>
+              </Link>
+            </Center>
           </Box>
         </Box>
       </Center>
