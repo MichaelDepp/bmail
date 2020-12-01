@@ -10,13 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { MdLocationOn } from "react-icons/md";
 
-const Userinfo = () => {
+const Userinfo = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const bg = useColorModeValue("#101010", "#F8F8F8");
   const color = useColorModeValue("#101010", "#F8F8F8");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
+  const { data } = props;
   return (
     <Box mt={6}>
       <Box width={220} mx="auto">
@@ -24,7 +25,7 @@ const Userinfo = () => {
           border={"5px #FE5454 solid"}
           size="4xl"
           src="./new.png"
-          name="Michael Depp"
+          name={data.profile.fname + " " + data.profile.lname}
         />
       </Box>
       <Box mt={5}>
@@ -35,7 +36,7 @@ const Userinfo = () => {
           fontSize={"2xl"}
           color={sbtn}
         >
-          Michael Depp
+          {data.profile.fname + " " + data.profile.lname}
         </Text>
         <Text
           textAlign="center"
@@ -44,7 +45,7 @@ const Userinfo = () => {
           fontSize={"sm"}
           color={sbtn}
         >
-          24 years old
+          {data.profile.age + " years old"}
         </Text>
         <Flex justifyContent="center">
           <Icon as={MdLocationOn} mr={2}></Icon>
@@ -55,7 +56,7 @@ const Userinfo = () => {
             fontSize={"sm"}
             color={sbtn}
           >
-            Bangkok, Thailand
+            {data.profile.location}
           </Text>
         </Flex>
       </Box>
@@ -78,7 +79,7 @@ const Userinfo = () => {
               color={sbtn}
               fontSize={"md"}
             >
-              192
+              {data.inbox}
             </Text>
           </Box>
           <Box>
@@ -98,7 +99,7 @@ const Userinfo = () => {
               color={sbtn}
               fontSize={"md"}
             >
-              73
+              {data.sent}
             </Text>
           </Box>
           <Box>
@@ -118,7 +119,7 @@ const Userinfo = () => {
               color={sbtn}
               fontSize={"md"}
             >
-              91
+              {data.trash}
             </Text>
           </Box>
         </Flex>

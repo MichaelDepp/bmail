@@ -26,13 +26,25 @@ const customTheme = extendTheme({
 });
 
 function App({ Component, pageProps }) {
+  const [loggedIn, setLoggedIn] = React.useState(false);
   console.log("Hello from APP");
+
+  // const callApi = () => {
+  //   fetch("http://localhost:8000/testAPI")
+  //     .then((res) => res.text())
+  //     .then((res) => setApi(res));
+  // };
+
+  // React.useEffect(() => {
+  //   callApi();
+  // });
+
   return (
     <ChakraProvider theme={customTheme}>
       <Head>
-        <title>Bmail</title>
+        <title>Zapp</title>
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
     </ChakraProvider>
   );
 }

@@ -17,8 +17,8 @@ import react, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-function Inbox(props) {
-  const [inbox, setInbox] = useState({});
+function Sent(props) {
+  const [sent, setSent] = useState({});
   const [loading, setLoading] = useState(true);
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -29,24 +29,25 @@ function Inbox(props) {
   const api_key = "https://zapp-serv.herokuapp.com/";
   const { setLoggedIn } = props;
 
-  const fetchInbox = () => {
+  const fetchSent = () => {
     axios
-      .get(api_key + "getinbox")
+      .get(api_key + "getsent")
       .then((res) => {
-        setInbox(res.data);
-        console.log("getinbox==========>", res.data);
+        setSent(res.data);
+        console.log("getsent==========>", res.data);
         setLoading(false);
       })
       .catch((err) => console.log(err.data));
   };
 
   useEffect(() => {
-    fetchInbox();
+    fetchSent();
   }, []);
 
   if (loading) {
     return <p>loading</p>;
   }
+
   return (
     <Layout>
       <Box display={"block"}>
@@ -57,12 +58,15 @@ function Inbox(props) {
             fontSize={["xl", "xl", "xl", "xl"]}
             color={btn}
           >
-            Inbox
+            Sent
           </Heading>
         </Box>
         <Box>
-          {inbox.inbox.map((item, index) => {
-            return <EmailBox key={index} data={item} name={item.senderName} />;
+          {sent.sent.map((item, index) => {
+            console.log(item);
+            return (
+              <EmailBox key={index} data={item} name={item.receiverName} />
+            );
           })}
         </Box>
       </Box>
@@ -70,4 +74,4 @@ function Inbox(props) {
   );
 }
 
-export default Inbox;
+export default Sent;

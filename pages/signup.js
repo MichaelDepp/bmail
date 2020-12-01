@@ -27,6 +27,223 @@ const Signup = () => {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
+
+  const lightField = (
+    <>
+      <Input
+        mb={5}
+        placeholder="First Name"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(64, 64, 64, 0.8)",
+        }}
+      />
+      <Input
+        mb={5}
+        placeholder="Last Name"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(64, 64, 64, 0.8)",
+        }}
+      />
+      <Input
+        mb={5}
+        placeholder="Age"
+        type={"number"}
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(64, 64, 64, 0.8)",
+        }}
+      />
+      <Input
+        mb={5}
+        placeholder="Country"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(64, 64, 64, 0.8)",
+        }}
+      />
+      <Input
+        mb={8}
+        placeholder="City"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(64, 64, 64, 0.8)",
+        }}
+      />
+      <Input
+        mb={8}
+        placeholder="Phone Number"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(64, 64, 64, 0.8)",
+        }}
+      />
+    </>
+  );
+
+  const darkField = (
+    <>
+      <Input
+        mb={5}
+        placeholder="First Name"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(210, 210, 210, 0.8)",
+        }}
+      />
+      <Input
+        mb={5}
+        placeholder="Last Name"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(210, 210, 210, 0.8)",
+        }}
+      />
+      <Input
+        mb={5}
+        placeholder="Age"
+        type={"number"}
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(210, 210, 210, 0.8)",
+        }}
+      />
+      <Input
+        mb={5}
+        placeholder="Country"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(210, 210, 210, 0.8)",
+        }}
+      />
+      <Input
+        mb={8}
+        placeholder="City"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(210, 210, 210, 0.8)",
+        }}
+      />
+      <Input
+        mb={8}
+        placeholder="Phone Number"
+        border="none"
+        size="lg"
+        background={cbox}
+        fontFamily={"Poppins"}
+        fontWeight={"semi"}
+        fontSize={"md"}
+        textColor={sbtn}
+        _placeholder={{
+          fontFamily: "Poppins",
+          fontWeight: "semi",
+          fontSize: "md",
+          color: "rgba(210, 210, 210, 0.8)",
+        }}
+      />
+    </>
+  );
+
   return (
     <Signlayout>
       <Center>
@@ -51,109 +268,7 @@ const Signup = () => {
           </Box>
 
           <Box mt={16} pb={24}>
-            <Input
-              mb={5}
-              placeholder="First Name"
-              border="none"
-              size="lg"
-              background={cbox}
-              fontFamily={"Poppins"}
-              fontWeight={"semi"}
-              fontSize={"md"}
-              textColor={sbtn}
-              _placeholder={{
-                fontFamily: "Poppins",
-                fontWeight: "semi",
-                fontSize: "md",
-                color: "rgba(64, 64, 64, 0.8)",
-              }}
-            />
-            <Input
-              mb={5}
-              placeholder="Last Name"
-              border="none"
-              size="lg"
-              background={cbox}
-              fontFamily={"Poppins"}
-              fontWeight={"semi"}
-              fontSize={"md"}
-              textColor={sbtn}
-              _placeholder={{
-                fontFamily: "Poppins",
-                fontWeight: "semi",
-                fontSize: "md",
-                color: "rgba(64, 64, 64, 0.8)",
-              }}
-            />
-            <Input
-              mb={5}
-              placeholder="Age"
-              type={"number"}
-              border="none"
-              size="lg"
-              background={cbox}
-              fontFamily={"Poppins"}
-              fontWeight={"semi"}
-              fontSize={"md"}
-              textColor={sbtn}
-              _placeholder={{
-                fontFamily: "Poppins",
-                fontWeight: "semi",
-                fontSize: "md",
-                color: "rgba(64, 64, 64, 0.8)",
-              }}
-            />
-            <Input
-              mb={5}
-              placeholder="Country"
-              border="none"
-              size="lg"
-              background={cbox}
-              fontFamily={"Poppins"}
-              fontWeight={"semi"}
-              fontSize={"md"}
-              textColor={sbtn}
-              _placeholder={{
-                fontFamily: "Poppins",
-                fontWeight: "semi",
-                fontSize: "md",
-                color: "rgba(64, 64, 64, 0.8)",
-              }}
-            />
-            <Input
-              mb={8}
-              placeholder="City"
-              border="none"
-              size="lg"
-              background={cbox}
-              fontFamily={"Poppins"}
-              fontWeight={"semi"}
-              fontSize={"md"}
-              textColor={sbtn}
-              _placeholder={{
-                fontFamily: "Poppins",
-                fontWeight: "semi",
-                fontSize: "md",
-                color: "rgba(64, 64, 64, 0.8)",
-              }}
-            />
-            <Input
-              mb={8}
-              placeholder="Phone Number"
-              border="none"
-              size="lg"
-              background={cbox}
-              fontFamily={"Poppins"}
-              fontWeight={"semi"}
-              fontSize={"md"}
-              textColor={sbtn}
-              _placeholder={{
-                fontFamily: "Poppins",
-                fontWeight: "semi",
-                fontSize: "md",
-                color: "rgba(64, 64, 64, 0.8)",
-              }}
-            />
+            {colorMode === "light" ? darkField : lightField}
             <Center>
               <Button
                 w={"100%"}

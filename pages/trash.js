@@ -13,15 +13,40 @@ import {
 } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import EmailBox from "../components/EmailBox";
+import react, { useState, useEffect } from "react";
+import axios from "axios";
 import Link from "next/link";
 
-function Trash() {
+function Trash(props) {
+  const [trash, setTrash] = useState({});
+  const [loading, setLoading] = useState(true);
   const { colorMode, toggleColorMode } = useColorMode();
 
   const bg = useColorModeValue("#101010", "#F8F8F8");
   const color = useColorModeValue("#F8F8F8", "#101010");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
+  const api_key = "https://zapp-serv.herokuapp.com/";
+  const { setLoggedIn } = props;
+
+  const fetchTrash = () => {
+    axios
+      .get(api_key + "gettrash")
+      .then((res) => {
+        setTrash(res.data);
+        console.log("gettrash==========>", res.data);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err.data));
+  };
+
+  useEffect(() => {
+    fetchTrash();
+  }, []);
+
+  if (loading) {
+    return <p>loading</p>;
+  }
   return (
     <Layout>
       <Box display={"block"}>
@@ -36,29 +61,11 @@ function Trash() {
           </Heading>
         </Box>
         <Box>
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
-          <EmailBox />
+          {trash.trash.map((item, index) => {
+            return (
+              <EmailBox key={index} data={item} name={item.receivername} />
+            );
+          })}
         </Box>
       </Box>
     </Layout>

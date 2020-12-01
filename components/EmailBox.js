@@ -13,8 +13,9 @@ import {
   GridItem,
   HStack,
 } from "@chakra-ui/react";
+import Link from "next/link";
 
-const EmailBox = () => {
+const EmailBox = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const bg = useColorModeValue("#101010", "#F8F8F8");
@@ -26,34 +27,42 @@ const EmailBox = () => {
     "rgba(64, 64, 64, 0.4)",
     "rgba(210, 210, 210, 0.4)"
   );
+  const { data, name } = props;
   return (
-    <Box bg={cbox} borderRadius={8} mb={3}>
-      <HStack spacing="20px" py={2}>
-        <Box ml={4}>
-          <Avatar src="./new.png" name="Michael Depp" />
-        </Box>
-        <Box>
-          <Flex justifyContent="space-between">
-            <Text color={tbtn} fontSize="md">
-              Michael Depp
-            </Text>
-            <Text color={tbtn} fontSize="sm" mr={3}>
-              28 Oct 20
-            </Text>
-          </Flex>
-          <Flex>
-            <Text color={tbtn} fontSize="sm">
-              Regarding Leave of Absence
-            </Text>
-          </Flex>
-          <Flex>
-            <Text color={tbtn} fontSize="sm">
-              Respectable madam, I am sorry to infor... 
-            </Text>
-          </Flex>
-        </Box>
-      </HStack>
-    </Box>
+    <Link
+      href={{
+        pathname: "/email/",
+        query: { slug: data.id },
+      }}
+    >
+      <Box bg={cbox} borderRadius={8} mb={3}>
+        <HStack spacing="20px" py={2}>
+          <Box ml={4}>
+            <Avatar src={data?.img} name={name} />
+          </Box>
+          <Box>
+            <Flex justifyContent="space-between">
+              <Text color={tbtn} fontSize="md">
+                {name}
+              </Text>
+              <Text color={tbtn} fontSize="sm" mr={3}>
+                {data?.timestamp}
+              </Text>
+            </Flex>
+            <Flex>
+              <Text color={tbtn} fontSize="sm">
+                {data?.title}
+              </Text>
+            </Flex>
+            <Flex>
+              <Text color={tbtn} fontSize="sm">
+                {data?.message}
+              </Text>
+            </Flex>
+          </Box>
+        </HStack>
+      </Box>
+    </Link>
   );
 };
 

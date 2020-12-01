@@ -66,18 +66,14 @@ function Navbar() {
           ></IconButton>
         </Flex>
 
-        <a href={"/"}>
-          <Box>
-            <Link href="/">
-              <IconButton
-                colorScheme="none"
-                color={btn}
-                _focus={{ outline: "none" }}
-                icon={<AiFillThunderbolt size={30}></AiFillThunderbolt>}
-              ></IconButton>
-            </Link>
-          </Box>
-        </a>
+        <Box>
+          <IconButton
+            colorScheme="none"
+            color={btn}
+            _focus={{ outline: "none" }}
+            icon={<AiFillThunderbolt size={30}></AiFillThunderbolt>}
+          ></IconButton>
+        </Box>
 
         <Box display={{ sm: true ? "block" : "none", md: "block" }}>
           <IconButton
