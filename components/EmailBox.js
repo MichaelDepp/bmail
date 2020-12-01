@@ -55,7 +55,7 @@ const EmailBox = (props) => {
               </Text>
             </Flex>
             <Flex>
-              <Text color={tbtn} fontSize="sm">
+              <Text color={tbtn} fontSize="sm" noOfLines={2}>
                 {data?.message}
               </Text>
             </Flex>

@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import Layout from "../components/Layout";
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect, useCallback } from "react";
 import EmailBox from "../components/EmailBox";
 import Link from "next/link";
 import {
@@ -35,6 +35,9 @@ import {
 } from "react-icons/ri";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Artyom from "artyom.js";
+
+const Jarvis = new Artyom();
 
 function Email() {
   const [email, setEmail] = useState({});
@@ -180,6 +183,12 @@ function Email() {
     </>
   );
 
+  const onSay = () => {
+    Jarvis.say("Email from" + email?.receiverName);
+    Jarvis.say("Email title" + email?.title);
+    Jarvis.say("Email message" + email?.message);
+  };
+
   return (
     <Layout>
       <Box display={"block"}>
@@ -260,6 +269,7 @@ function Email() {
               <Center h="100%">
                 <Stack direction="column" spacing={4} my={5}>
                   <Button
+                    onClick={onSay}
                     color={btn}
                     colorScheme="none"
                     _focus={{ outline: "none", background: "transparent" }}
