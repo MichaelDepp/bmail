@@ -36,12 +36,11 @@ const Profile = (props) => {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
-  const api_key = "https://zapp-serv.herokuapp.com/";
-  const { setLoggedIn } = props;
+  const { setLoggedIn, api_key, currentUser } = props;
 
   const fetchProfile = () => {
     axios
-      .get(api_key + "getprofile")
+      .post(api_key + "getprofile", { user: currentUser })
       .then((res) => {
         setData(res.data);
         console.log("getprofile==========>", res.data);

@@ -27,24 +27,23 @@ const customTheme = extendTheme({
 
 function App({ Component, pageProps }) {
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState();
   console.log("Hello from APP");
-
-  // const callApi = () => {
-  //   fetch("http://localhost:8000/testAPI")
-  //     .then((res) => res.text())
-  //     .then((res) => setApi(res));
-  // };
-
-  // React.useEffect(() => {
-  //   callApi();
-  // });
-
+  const api_key = process.env.NEXT_PUBLIC_ZAPP_API;
+  console.log("curent API==================>", api_key);
   return (
     <ChakraProvider theme={customTheme}>
       <Head>
         <title>Zapp</title>
       </Head>
-      <Component {...pageProps} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      <Component
+        {...pageProps}
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+        api_key={api_key}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+      />
     </ChakraProvider>
   );
 }

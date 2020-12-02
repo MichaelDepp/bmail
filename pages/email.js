@@ -39,7 +39,7 @@ import Artyom from "artyom.js";
 
 const Jarvis = new Artyom();
 
-function Email() {
+function Email(props) {
   const [email, setEmail] = useState({});
   const [loading, setLoading] = useState(true);
   const { colorMode, toggleColorMode } = useColorMode();
@@ -61,14 +61,14 @@ function Email() {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
-  const api_key = "https://zapp-serv.herokuapp.com/getmail/";
+  const { api_key, currentUser } = props;
   const router = useRouter();
   const slug = router.query.slug;
 
   const fetchMail = () => {
     console.log("slug========>");
     axios
-      .post(api_key, { slug: slug })
+      .post(api_key + "getmail", { slug: slug, user: currentUser })
       .then((res) => {
         setEmail(res.data.message);
         console.log("getmail==========>", res.data.message);

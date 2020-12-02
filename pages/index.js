@@ -32,10 +32,9 @@ const Index = (props) => {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
-  const api_key = "https://zapp-serv.herokuapp.com/";
   const router = useRouter();
 
-  const { setLoggedIn } = props;
+  const { setLoggedIn, api_key, setCurrentUser, currentUser } = props;
 
   const checkLoggedin = () => {
     if (props.loggedIn == true) {
@@ -49,6 +48,7 @@ const Index = (props) => {
     axios
       .post(api_key, data)
       .then((res) => {
+        setCurrentUser(res.data.user);
         if (res.data.message === "success") {
           toast({
             title: "Login Succesfull",

@@ -26,12 +26,11 @@ function Trash(props) {
   const color = useColorModeValue("#F8F8F8", "#101010");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
-  const api_key = "https://zapp-serv.herokuapp.com/";
-  const { setLoggedIn } = props;
+  const { setLoggedIn, api_key, currentUser } = props;
 
   const fetchTrash = () => {
     axios
-      .get(api_key + "gettrash")
+      .get(api_key + "gettrash", { user: currentUser })
       .then((res) => {
         setTrash(res.data);
         console.log("gettrash==========>", res.data);

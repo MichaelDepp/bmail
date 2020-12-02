@@ -26,12 +26,11 @@ function Inbox(props) {
   const color = useColorModeValue("#F8F8F8", "#101010");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
-  const api_key = "https://zapp-serv.herokuapp.com/";
-  const { setLoggedIn } = props;
+  const { setLoggedIn, api_key, currentUser } = props;
 
   const fetchInbox = () => {
     axios
-      .get(api_key + "getinbox")
+      .post(api_key + "getinbox", { user: currentUser })
       .then((res) => {
         setInbox(res.data);
         console.log("getinbox==========>", res.data);
