@@ -15,7 +15,7 @@
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
-    "artyom.js": "^1.0.6",
+    "artyom.js": "git+https://github.com/MichaelDepp/artyom.js.git",
     "axios": "^0.21.0",
     "framer-motion": "^2.9.4",
     "hamburger-react": "^2.3.0",
