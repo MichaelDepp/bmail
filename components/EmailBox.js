@@ -28,6 +28,9 @@ const EmailBox = (props) => {
     "rgba(210, 210, 210, 0.4)"
   );
   const { data, name } = props;
+
+  const { currentLocation, initialLocation } = data;
+
   return (
     <Link
       href={{
@@ -38,12 +41,29 @@ const EmailBox = (props) => {
       <Box bg={cbox} borderRadius={8} mb={3}>
         <HStack spacing="20px" py={2}>
           <Box ml={4}>
-            <Avatar src={data?.img} name={name} />
+            <Avatar
+              src={data?.img}
+              name={
+                currentLocation === "trash"
+                  ? initialLocation === "inbox"
+                    ? data?.senderName
+                    : data?.receiverName
+                  : currentLocation === "inbox"
+                  ? data?.senderName
+                  : data?.receiverName
+              }
+            />
           </Box>
           <Box>
             <Flex justifyContent="space-between">
               <Text color={tbtn} fontSize="md">
-                {name}
+                {currentLocation === "trash"
+                  ? initialLocation === "inbox"
+                    ? data?.senderName
+                    : data?.receiverName
+                  : currentLocation === "inbox"
+                  ? data?.senderName
+                  : data?.receiverName}
               </Text>
               <Text color={tbtn} fontSize="sm" mr={3}>
                 {data?.timestamp}

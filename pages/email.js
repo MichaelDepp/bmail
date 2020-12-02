@@ -64,6 +64,7 @@ function Email(props) {
   const { api_key, currentUser } = props;
   const router = useRouter();
   const slug = router.query.slug;
+  let emailMode;
 
   const fetchMail = () => {
     console.log("slug========>");
@@ -183,8 +184,24 @@ function Email(props) {
     </>
   );
 
+  if (email?.currentLocation === "trash") {
+    if (email?.initialLocation === "inbox") {
+      emailMode = "inbox";
+    } else {
+      emailMode = "sent";
+    }
+  } else if (email?.currentLocation === "inbox") {
+    emailMode = "inbox";
+  } else {
+    emailMode = "sent";
+  }
+
   const onSay = () => {
-    Jarvis.say("Email from" + email?.receiverName);
+    if (emailMode === "inbox") {
+      Jarvis.say("Email from" + email?.senderName);
+    } else {
+      Jarvis.say("Email from" + email?.receiverName);
+    }
     Jarvis.say("Email title" + email?.title);
     Jarvis.say("Email message" + email?.message);
   };
@@ -206,12 +223,29 @@ function Email(props) {
           <Flex justifyContent="space-between">
             <Flex>
               <Box>
-                <Avatar src={".com"} name={email?.receiverName} />
+                <Avatar
+                  src={".com"}
+                  name={
+                    email?.currentLocation === "trash"
+                      ? email?.initialLocation === "inbox"
+                        ? email?.senderName
+                        : email?.receiverName
+                      : email?.currentLocation === "inbox"
+                      ? email?.senderName
+                      : email?.receiverName
+                  }
+                />
               </Box>
               <Box ml={2}>
                 <Flex alignItems="center">
                   <Text fontFamily="Poppins" fontWeight="semi" color={sbtn}>
-                    {email?.receiverName}
+                    {email?.currentLocation === "trash"
+                      ? email?.initialLocation === "inbox"
+                        ? email?.senderName
+                        : email?.receiverName
+                      : email?.currentLocation === "inbox"
+                      ? email?.senderName
+                      : email?.receiverName}
                   </Text>
                   <Text
                     fontFamily="Poppins"
@@ -229,7 +263,13 @@ function Email(props) {
                   fontSize="0.8rem"
                   color={sbtn}
                 >
-                  {email?.receiverEmail}
+                  {email?.currentLocation === "trash"
+                    ? email?.initialLocation === "inbox"
+                      ? email?.senderEmail
+                      : email?.receiverEmail
+                    : email?.currentLocation === "inbox"
+                    ? email?.senderEmail
+                    : email?.receiverEmail}
                 </Text>
               </Box>
             </Flex>

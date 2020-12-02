@@ -30,7 +30,7 @@ function Trash(props) {
 
   const fetchTrash = () => {
     axios
-      .get(api_key + "gettrash", { user: currentUser })
+      .post(api_key + "gettrash", { user: currentUser })
       .then((res) => {
         setTrash(res.data);
         console.log("gettrash==========>", res.data);
@@ -61,9 +61,7 @@ function Trash(props) {
         </Box>
         <Box>
           {trash.trash.map((item, index) => {
-            return (
-              <EmailBox key={index} data={item} name={item.receivername} />
-            );
+            return <EmailBox key={index} data={item} />;
           })}
         </Box>
       </Box>
