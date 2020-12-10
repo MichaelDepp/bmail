@@ -9,10 +9,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Signlayout from "../components/Signlayout";
-import Setpassword from "../components/Setpassword";
 import { AiFillThunderbolt } from "react-icons/ai";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
 const Signup = () => {
+  const { register, handleSubmit, watch, errors } = useForm();
   const { colorMode, toggleColorMode } = useColorMode();
 
   const bg = useColorModeValue("#101010", "#F8F8F8");
@@ -28,9 +30,15 @@ const Signup = () => {
     "rgba(64, 64, 64, 0.8)"
   );
 
+  const onSubmit = (data) => {
+    console.log("=======>submited data", data);
+  };
+
   const lightField = (
     <>
       <Input
+        name="fname"
+        ref={register({ required: true })}
         mb={5}
         placeholder="First Name"
         border="none"
@@ -48,6 +56,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="lname"
+        ref={register({ required: true })}
         mb={5}
         placeholder="Last Name"
         border="none"
@@ -65,6 +75,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="age"
+        ref={register({ required: true })}
         mb={5}
         placeholder="Age"
         type={"number"}
@@ -83,6 +95,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="country"
+        ref={register({ required: true })}
         mb={5}
         placeholder="Country"
         border="none"
@@ -100,6 +114,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="city"
+        ref={register({ required: true })}
         mb={8}
         placeholder="City"
         border="none"
@@ -117,6 +133,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="phone"
+        ref={register({ required: true })}
         mb={8}
         placeholder="Phone Number"
         border="none"
@@ -139,6 +157,8 @@ const Signup = () => {
   const darkField = (
     <>
       <Input
+        name="fname"
+        ref={register({ required: true })}
         mb={5}
         placeholder="First Name"
         border="none"
@@ -156,6 +176,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="lname"
+        ref={register({ required: true })}
         mb={5}
         placeholder="Last Name"
         border="none"
@@ -173,6 +195,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="age"
+        ref={register({ required: true })}
         mb={5}
         placeholder="Age"
         type={"number"}
@@ -191,6 +215,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="country"
+        ref={register({ required: true })}
         mb={5}
         placeholder="Country"
         border="none"
@@ -208,6 +234,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="city"
+        ref={register({ required: true })}
         mb={8}
         placeholder="City"
         border="none"
@@ -225,6 +253,8 @@ const Signup = () => {
         }}
       />
       <Input
+        name="phone"
+        ref={register({ required: true })}
         mb={8}
         placeholder="Phone Number"
         border="none"
@@ -268,32 +298,34 @@ const Signup = () => {
           </Box>
 
           <Box mt={16} pb={24}>
-            {colorMode === "light" ? darkField : lightField}
-            <Center>
-              <Button
-                w={"100%"}
-                size="lg"
-                fontSize={"md"}
-                borderRadius={5}
-                fontWeight="bold"
-                fontFamily={"Poppins"}
-                fontSize={"md"}
-                bg={btn}
-                color={color}
-                _hover={{ bg: "#f76565" }}
-                _active={{
-                  bg: { btn },
-                  transform: "scale(0.98)",
-                }}
-                _focus={{
-                  boxShadow:
-                    "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                }}
-                type="submit"
-              >
-                Sign Up
-              </Button>
-            </Center>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {colorMode === "light" ? darkField : lightField}
+              <Center>
+                <Button
+                  w={"100%"}
+                  size="lg"
+                  fontSize={"md"}
+                  borderRadius={5}
+                  fontWeight="bold"
+                  fontFamily={"Poppins"}
+                  fontSize={"md"}
+                  bg={btn}
+                  color={color}
+                  _hover={{ bg: "#f76565" }}
+                  _active={{
+                    bg: { btn },
+                    transform: "scale(0.98)",
+                  }}
+                  _focus={{
+                    boxShadow:
+                      "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                  }}
+                  type="submit"
+                >
+                  Sign Up
+                </Button>
+              </Center>
+            </form>
             <Text
               mt={3}
               textAlign="center"
