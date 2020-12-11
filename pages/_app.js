@@ -28,6 +28,7 @@ const customTheme = extendTheme({
 function App({ Component, pageProps }) {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState();
+  const [talk, setTalk] = React.useState(false);
   console.log("Hello from APP");
   const api_key = process.env.NEXT_PUBLIC_ZAPP_API;
   console.log("curent API==================>", api_key);
@@ -43,6 +44,8 @@ function App({ Component, pageProps }) {
         api_key={api_key}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
+        setTalk={setTalk}
+        talk={talk}
       />
     </ChakraProvider>
   );

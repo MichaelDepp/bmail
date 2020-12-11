@@ -26,7 +26,7 @@ import Hamburger from "hamburger-react";
 import Navscreen from "../components/Navscreen";
 import { useState } from "react";
 
-function Navbar() {
+function Navbar(props) {
   const [menu, setMenu] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [placement, setPlacement] = useState("left");
@@ -40,9 +40,11 @@ function Navbar() {
     "rgba(248, 248, 248, 0.9)"
   );
 
-  function opennav() {
-    setMenu(!menu);
-  }
+  const { talk, setTalk } = props;
+
+  const onTalk = () => {
+    setTalk(!talk);
+  };
 
   return (
     <div style={{ paddingTop: "5px" }}>
@@ -68,6 +70,7 @@ function Navbar() {
 
         <Box>
           <IconButton
+            onClick={onTalk}
             colorScheme="none"
             color={btn}
             _focus={{ outline: "none" }}
