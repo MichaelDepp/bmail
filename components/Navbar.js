@@ -43,7 +43,9 @@ function Navbar(props) {
   const { talk, setTalk } = props;
 
   const onTalk = () => {
-    setTalk(!talk);
+    if (setTalk) {
+      setTalk(!talk);
+    }
   };
 
   return (
