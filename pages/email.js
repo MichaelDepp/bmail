@@ -36,6 +36,7 @@ import {
 import { useRouter } from "next/router";
 import axios from "axios";
 import Artyom from "artyom.js";
+import moment from "moment";
 
 const Jarvis = new Artyom();
 
@@ -61,10 +62,16 @@ function Email(props) {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
-  const { api_key, currentUser } = props;
+  const { api_key, currentUser, talk, setTalk } = props;
   const router = useRouter();
   const slug = router.query.slug;
   let emailMode;
+  let timing;
+
+  if (email?.timestamp) {
+    timing = moment(email?.timestamp).fromNow();
+    console.log("=======timing=====", timing);
+  }
 
   const fetchMail = () => {
     console.log("slug========>");
@@ -82,107 +89,13 @@ function Email(props) {
     fetchMail();
   }, []);
 
-  const darkField = (
-    <>
-      <Input
-        placeholder="To"
-        border="none"
-        size="lg"
-        background={cbox}
-        fontFamily={"Poppins"}
-        fontWeight={"semi"}
-        fontSize={"md"}
-        textColor={sbtn}
-        _placeholder={{
-          fontFamily: "Poppins",
-          fontWeight: "semi",
-          fontSize: "md",
-        }}
-      />
-      <Input
-        placeholder="Subject"
-        border="none"
-        size="lg"
-        background={cbox}
-        fontFamily={"Poppins"}
-        fontWeight={"semi"}
-        fontSize={"md"}
-        _placeholder={{
-          fontFamily: "Poppins",
-          fontWeight: "semi",
-          fontSize: "md",
-        }}
-      />
-
-      <Textarea
-        placeholder="Message"
-        height={"350px"}
-        border="none"
-        size="lg"
-        background={cbox}
-        fontFamily={"Poppins"}
-        fontWeight={"semi"}
-        fontSize={"md"}
-        _placeholder={{
-          fontFamily: "Poppins",
-          fontWeight: "semi",
-          fontSize: "md",
-        }}
-      />
-    </>
-  );
-
-  const lightField = (
-    <>
-      <Input
-        placeholder="To"
-        border="none"
-        size="lg"
-        background={cbox}
-        fontFamily={"Poppins"}
-        fontWeight={"semi"}
-        fontSize={"md"}
-        textColor={sbtn}
-        _placeholder={{
-          fontFamily: "Poppins",
-          fontWeight: "semi",
-          fontSize: "md",
-          color: "rgba(64, 64, 64, 0.8)",
-        }}
-      />
-      <Input
-        placeholder="Subject"
-        border="none"
-        size="lg"
-        background={cbox}
-        fontFamily={"Poppins"}
-        fontWeight={"semi"}
-        fontSize={"md"}
-        _placeholder={{
-          fontFamily: "Poppins",
-          fontWeight: "semi",
-          fontSize: "md",
-          color: "rgba(64, 64, 64, 0.8)",
-        }}
-      />
-      <Textarea
-        placeholder="Message"
-        height={"350px"}
-        border="none"
-        size="lg"
-        background={cbox}
-        fontFamily={"Poppins"}
-        fontWeight={"semi"}
-        fontSize={"md"}
-        _placeholder={{
-          fontFamily: "Poppins",
-          fontWeight: "semi",
-          fontSize: "md",
-          color: "rgba(64, 64, 64, 0.8)",
-        }}
-      />
-    </>
-  );
+  useEffect(() => {
+    if (talk) {
+      onSay();
+    } else {
+      Jarvis.shutUp();
+    }
+  });
 
   if (email?.currentLocation === "trash") {
     if (email?.initialLocation === "inbox") {
@@ -206,8 +119,31 @@ function Email(props) {
     Jarvis.say("Email message" + email?.message);
   };
 
+  const onReply = () => {
+    router.push({
+      pathname: "/compose",
+      query: {
+        terima:
+          email?.initialLocation === "inbox"
+            ? email?.senderEmail
+            : email?.receiverEmail,
+        tajuk: "Re: " + email?.title,
+      },
+    });
+  };
+
+  const onForward = () => {
+    router.push({
+      pathname: "/compose",
+      query: {
+        tajuk: "Fwd: " + email?.title,
+        cerita: email?.message,
+      },
+    });
+  };
+
   return (
-    <Layout>
+    <Layout talk={talk} setTalk={setTalk}>
       <Box display={"block"}>
         <Box mb={2} mt={5}>
           <Heading
@@ -254,7 +190,7 @@ function Email(props) {
                     color={sbtn}
                     ml={2}
                   >
-                    {email?.timestamp}
+                    {timing && timing}
                   </Text>
                 </Flex>
                 <Text
@@ -309,7 +245,7 @@ function Email(props) {
               <Center h="100%">
                 <Stack direction="column" spacing={4} my={5}>
                   <Button
-                    onClick={onSay}
+                    onClick={onReply}
                     color={btn}
                     colorScheme="none"
                     _focus={{ outline: "none", background: "transparent" }}
@@ -318,6 +254,7 @@ function Email(props) {
                     Reply
                   </Button>
                   <Button
+                    onClick={onForward}
                     color={btn}
                     colorScheme="none"
                     _focus={{ outline: "none", background: "transparent" }}
