@@ -12,14 +12,23 @@ import {
   Flex,
   Input,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import EmailBox from "../components/EmailBox";
+import react, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-function Compose() {
+const Compose = (props) => {
+  const { register, handleSubmit, watch, errors } = useForm();
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const [exists, setExists] = useState(false);
+  const [receiver, setReceiver] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [subject, setSubject] = useState(null);
   const bg = useColorModeValue("#101010", "#F8F8F8");
   const color = useColorModeValue("#101010", "#F8F8F8");
   const btn = "#FE5454";
@@ -33,9 +42,134 @@ function Compose() {
     "rgba(64, 64, 64, 0.8)"
   );
 
+  const { api_key, currentUser } = props;
+  const router = useRouter();
+  const toast = useToast();
+
+  const { terima, tajuk, cerita } = router.query;
+
+  useEffect(() => {
+    if (terima) {
+      setReceiver(terima);
+    }
+    if (tajuk) {
+      setSubject(tajuk);
+    }
+    if (cerita) {
+      setMessage(cerita);
+    }
+  }, []);
+
+  const onSubmit = (data) => {
+    if (exists) {
+      const composeData = {
+        sender: currentUser,
+        receiver: data.receiver,
+        title: data.subject,
+        message: data.message,
+        timestamp: new Date(),
+      };
+      onSendmail(composeData);
+    } else {
+      toast({
+        title: "Email Not Exists",
+        description: "Incorrect / Non Existing Email Address",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const onType = (data) => {
+    console.log("=====blurrrrr======", data.target.value);
+    if (data.target.value?.length > 0) {
+      console.log("entereddd handlee", data.target.value);
+      axios
+        .post(api_key + "emailidcheck", { email: data.target.value })
+        .then((res) => {
+          if (res.data.message === "exists") {
+            setExists(true);
+            console.log(res.data.message);
+          } else if (res.data.message === "unique") {
+            setExists(false);
+          } else {
+            console.log(res.data.message);
+          }
+        })
+        .catch((err) => {
+          setExists(false);
+          console.log(err.data);
+        });
+    }
+  };
+
+  const onSendmail = (composeData) => {
+    if (exists) {
+      axios
+        .post(api_key + "composemail", { data: composeData })
+        .then((res) => {
+          if (res.data.message === "sent") {
+            toast({
+              title: "Email Sent Succesfully",
+              description:
+                "Your message sent successfully to " + composeData.receiver,
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+            goTosent();
+          } else {
+            toast({
+              title: "Email Failed to Sent",
+              description:
+                "Your message fail to send to" + composeData.receiver,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch((err) => {
+          setExists(false);
+          console.log(err.data);
+          toast({
+            title: "Internet Connection",
+            description: "Internet connection is weak/not found",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        });
+    }
+  };
+
+  const goTosent = () => {
+    setTimeout(function () {
+      router.push("/sent");
+    }, 3000);
+  };
+
+  const onChangeReceiver = (text) => {
+    setReceiver(text.target.value);
+  };
+
+  const onChangeSubject = (text) => {
+    setSubject(text.target.value);
+  };
+
+  const onChangeMessage = (text) => {
+    setMessage(text.target.value);
+  };
+
   const darkField = (
     <>
       <Input
+        name="receiver"
+        ref={register({ required: true })}
+        onChange={onChangeReceiver}
+        onBlur={onType}
+        value={receiver}
         placeholder="To"
         border="none"
         size="lg"
@@ -51,6 +185,10 @@ function Compose() {
         }}
       />
       <Input
+        name="subject"
+        ref={register({ required: true })}
+        onChange={onChangeSubject}
+        value={subject}
         placeholder="Subject"
         border="none"
         size="lg"
@@ -66,6 +204,10 @@ function Compose() {
       />
 
       <Textarea
+        name="message"
+        ref={register({ required: true })}
+        onChange={onChangeMessage}
+        value={message}
         placeholder="Message"
         height={"350px"}
         border="none"
@@ -86,7 +228,12 @@ function Compose() {
   const lightField = (
     <>
       <Input
+        name="receiver"
+        value={receiver}
+        ref={register({ required: true })}
+        onChange={onChangeReceiver}
         placeholder="To"
+        onBlur={onType}
         border="none"
         size="lg"
         background={cbox}
@@ -102,6 +249,10 @@ function Compose() {
         }}
       />
       <Input
+        name="subject"
+        ref={register({ required: true })}
+        onChange={onChangeSubject}
+        value={subject}
         placeholder="Subject"
         border="none"
         size="lg"
@@ -117,6 +268,10 @@ function Compose() {
         }}
       />
       <Textarea
+        name="message"
+        ref={register({ required: true })}
+        onChange={onChangeMessage}
+        value={message}
         placeholder="Message"
         height={"350px"}
         border="none"
@@ -148,38 +303,40 @@ function Compose() {
             Compose
           </Heading>
         </Box>
-        <Box mt={8}>
-          <Stack spacing={3}>
-            {colorMode === "light" ? darkField : lightField}
-          </Stack>
-        </Box>
-        <Center mt={10}>
-          <Button
-            w={"50%"}
-            size="md"
-            borderRadius={5}
-            fontWeight="bold"
-            fontFamily={"Poppins"}
-            fontSize={"xl"}
-            bg={btn}
-            color={color}
-            _hover={{ bg: "#f76565" }}
-            _active={{
-              bg: { btn },
-              transform: "scale(0.98)",
-            }}
-            _focus={{
-              boxShadow:
-                "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-            }}
-            type="submit"
-          >
-            Send
-          </Button>
-        </Center>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box mt={8}>
+            <Stack spacing={3}>
+              {colorMode === "light" ? darkField : lightField}
+            </Stack>
+          </Box>
+          <Center mt={10}>
+            <Button
+              w={"50%"}
+              size="md"
+              borderRadius={5}
+              fontWeight="bold"
+              fontFamily={"Poppins"}
+              fontSize={"xl"}
+              bg={btn}
+              color={color}
+              _hover={{ bg: "#f76565" }}
+              _active={{
+                bg: { btn },
+                transform: "scale(0.98)",
+              }}
+              _focus={{
+                boxShadow:
+                  "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+              }}
+              type="submit"
+            >
+              Send
+            </Button>
+          </Center>
+        </form>
       </Box>
     </Layout>
   );
-}
+};
 
 export default Compose;

@@ -11,9 +11,11 @@ import {
   Flex,
   Spacer,
   GridItem,
+  Center,
   HStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import moment from "moment";
 
 const EmailBox = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -30,6 +32,13 @@ const EmailBox = (props) => {
   const { data, name } = props;
 
   const { currentLocation, initialLocation } = data;
+
+  let timing;
+
+  if (data?.timestamp) {
+    timing = moment(data?.timestamp).fromNow();
+    console.log("=======timing=====", timing);
+  }
 
   return (
     <Link
@@ -54,7 +63,7 @@ const EmailBox = (props) => {
               }
             />
           </Box>
-          <Box>
+          <Box width="100%">
             <Flex justifyContent="space-between">
               <Text color={tbtn} fontSize="md">
                 {currentLocation === "trash"
@@ -66,11 +75,11 @@ const EmailBox = (props) => {
                   : data?.receiverName}
               </Text>
               <Text color={tbtn} fontSize="sm" mr={3}>
-                {data?.timestamp}
+                {timing && timing}
               </Text>
             </Flex>
             <Flex>
-              <Text color={tbtn} fontSize="sm">
+              <Text color={tbtn} fontSize="sm" width="100%">
                 {data?.title}
               </Text>
             </Flex>

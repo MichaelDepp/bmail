@@ -21,7 +21,7 @@ function Layout(props) {
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
   return (
     <Box bg={bg} color={color} minHeight="100vh">
-      <Navbar></Navbar>
+      <Navbar talk={props.talk} setTalk={props.setTalk}></Navbar>
       <Center>
         <Box w={["90%", "90%", "70%", "80%"]}>{props.children}</Box>
       </Center>
