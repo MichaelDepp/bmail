@@ -15,7 +15,6 @@
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
-    "@untemps/react-vocal": "^1.4.1",
     "artyom.js": "git+https://github.com/MichaelDepp/artyom.js.git",
     "axios": "^0.21.0",
     "framer-motion": "^2.9.4",
@@ -26,8 +25,10 @@
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.12.0",
     "react-icons": "^3.11.0",
+    "react-speech-recognition": "^3.3.0",
     "styled-components": "^5.2.1",
     "styled-loaders-react": "^1.1.0",
     "styled-theming": "^2.2.0"
-  }
+  },
+  "devDependencies": {}
 }

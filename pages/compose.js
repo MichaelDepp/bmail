@@ -21,7 +21,9 @@ import react, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
-import Vocal from "../@untemps/react-vocal";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import { HiMicrophone, HiOutlineMicrophone } from "react-icons/hi";
 import { useRouter } from "next/router";
 
@@ -53,6 +55,65 @@ const Compose = (props) => {
   const toast = useToast();
 
   const { terima, tajuk, cerita } = router.query;
+
+  const commands = [
+    {
+      command: "receiver *",
+      callback: (recev) => {
+        if (receiver === "") {
+          setReceiver(recev.toLowerCase());
+        } else {
+          setReceiver(receiver + recev.toLowerCase());
+        }
+      },
+    },
+    {
+      command: "super type",
+      callback: (recev) => setReceiver(receiver + "@zapp.com"),
+    },
+    {
+      command: "subject *",
+      callback: (subj) => {
+        if (subject === "") {
+          setSubject(subj);
+        } else {
+          setSubject(subject + " " + subj);
+        }
+      },
+    },
+    {
+      command: "message *",
+      callback: (mess) => {
+        if (message === "") {
+          setMessage(mess);
+        } else {
+          setMessage(message + " " + mess);
+        }
+      },
+    },
+    {
+      command: "delete receiver*",
+      callback: (recev) => setReceiver(""),
+    },
+    {
+      command: "delete subject*",
+      callback: (subj) => setSubject(""),
+    },
+    {
+      command: "delete message*",
+      callback: (mess) => setMessage(""),
+    },
+    {
+      command: "delete",
+      callback: ({ resetTranscript }) => resetTranscript(),
+    },
+  ];
+
+  const { transcript } = useSpeechRecognition({ commands });
+
+  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    return null;
+  }
 
   useEffect(() => {
     if (terima) {
@@ -347,6 +408,17 @@ const Compose = (props) => {
     </>
   );
 
+  const voiceStart = () => {
+    SpeechRecognition.startListening();
+    setSpeak(true);
+  };
+
+  const voiceStop = () => {
+    SpeechRecognition.stopListening();
+    setSpeak(false);
+    console.log("===========trasn==========>", transcript);
+  };
+
   return (
     <Layout>
       <Box display={"block"}>
@@ -361,7 +433,28 @@ const Compose = (props) => {
           </Heading>
         </Box>
         <Center>
-          <Vocal onStart={speakNow} onResult={stopNow}>
+          {speak ? (
+            <IconButton
+              value="start"
+              onClick={voiceStop}
+              colorScheme="none"
+              color={btn}
+              fontSize="3xl"
+              _focus={{ outline: "none" }}
+              icon={<HiMicrophone></HiMicrophone>}
+            ></IconButton>
+          ) : (
+            <IconButton
+              value="stop"
+              onClick={voiceStart}
+              colorScheme="none"
+              color={btn}
+              fontSize="3xl"
+              _focus={{ outline: "none" }}
+              icon={<HiOutlineMicrophone></HiOutlineMicrophone>}
+            ></IconButton>
+          )}
+          {/* <Vocal onStart={speakNow} onResult={stopNow}>
             {(start, stop) => {
               return speak ? (
                 <IconButton
@@ -383,7 +476,7 @@ const Compose = (props) => {
                 ></IconButton>
               );
             }}
-          </Vocal>
+          </Vocal> */}
         </Center>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box mt={8}>
