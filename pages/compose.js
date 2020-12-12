@@ -66,11 +66,15 @@ const Compose = (props) => {
         } else {
           setReceiver(receiver + recev.toLowerCase());
         }
+        setSpeak(false);
       },
     },
     {
-      command: "super type",
-      callback: (recev) => setReceiver(receiver + "@zapp.com"),
+      command: "finished" || "finish",
+      callback: (recev) => {
+        setReceiver(receiver + "@zapp.com");
+        setSpeak(false);
+      },
     },
     {
       command: "subject *",
@@ -80,6 +84,7 @@ const Compose = (props) => {
         } else {
           setSubject(subject + " " + subj);
         }
+        setSpeak(false);
       },
     },
     {
@@ -90,23 +95,36 @@ const Compose = (props) => {
         } else {
           setMessage(message + " " + mess);
         }
+        setSpeak(false);
       },
     },
     {
       command: "delete receiver*",
-      callback: (recev) => setReceiver(""),
+      callback: (recev) => {
+        setReceiver("");
+        setSpeak(false);
+      },
     },
     {
       command: "delete subject*",
-      callback: (subj) => setSubject(""),
+      callback: (subj) => {
+        setSubject("");
+        setSpeak(false);
+      },
     },
     {
       command: "delete message*",
-      callback: (mess) => setMessage(""),
+      callback: (mess) => {
+        setMessage("");
+        setSpeak(false);
+      },
     },
     {
       command: "delete",
-      callback: ({ resetTranscript }) => resetTranscript(),
+      callback: ({ resetTranscript }) => {
+        resetTranscript();
+        setSpeak(false);
+      },
     },
   ];
 
@@ -129,8 +147,10 @@ const Compose = (props) => {
   }, []);
 
   useEffect(() => {
-    if (receiverFin) {
-      onType(receiver);
+    if (transcript.length > 1) {
+      if (receiver.length > 10) {
+        onType(receiver);
+      }
     }
   });
 
@@ -235,50 +255,6 @@ const Compose = (props) => {
 
   const onChangeMessage = (text) => {
     setMessage(text.target.value);
-  };
-
-  const speakNow = () => {
-    console.log("speakkkk triggered");
-    setReceived("");
-    setSpeak(true);
-  };
-
-  const stopNow = (value) => {
-    console.log(value);
-    if (value.search("receiver") === 0) {
-      if (value.slice(8).trim() === "clear") {
-        setReceiver("");
-      } else if (value.slice(8).trim() === "finish") {
-        setReceiver(receiver + "@zapp.com");
-        setReceiverFin(true);
-      } else {
-        setReceiver(receiver + value.slice(8).trim().toLowerCase());
-      }
-    } else if (value.search("subject") === 0) {
-      if (value.slice(7).trim() === "clear") {
-        setSubject("");
-      } else {
-        if (subject === "") {
-          setSubject(subject + value.slice(7).trim());
-        } else {
-          setSubject(subject + value.slice(7));
-        }
-      }
-    } else if (value.search("message") === 0) {
-      if (value.slice(7).trim() === "clear") {
-        setMessage("");
-      } else {
-        if (message === "") {
-          setMessage(message + value.slice(7).trim());
-        } else {
-          setMessage(message + value.slice(7));
-        }
-      }
-    } else {
-      console.log("message cant categorized");
-    }
-    setSpeak(false);
-    console.log("=======================>", received);
   };
 
   const darkField = (
@@ -455,29 +431,6 @@ const Compose = (props) => {
               icon={<HiOutlineMicrophone></HiOutlineMicrophone>}
             ></IconButton>
           )}
-          {/* <Vocal onStart={speakNow} onResult={stopNow}>
-            {(start, stop) => {
-              return speak ? (
-                <IconButton
-                  onClick={stop}
-                  colorScheme="none"
-                  color={btn}
-                  fontSize="3xl"
-                  _focus={{ outline: "none" }}
-                  icon={<HiMicrophone></HiMicrophone>}
-                ></IconButton>
-              ) : (
-                <IconButton
-                  onClick={start}
-                  colorScheme="none"
-                  color={btn}
-                  fontSize="3xl"
-                  _focus={{ outline: "none" }}
-                  icon={<HiOutlineMicrophone></HiOutlineMicrophone>}
-                ></IconButton>
-              );
-            }}
-          </Vocal> */}
         </Center>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box mt={8}>
@@ -487,6 +440,7 @@ const Compose = (props) => {
           </Box>
           <Center mt={10}>
             <Button
+              disabled={!exists}
               w={"50%"}
               size="md"
               borderRadius={5}
