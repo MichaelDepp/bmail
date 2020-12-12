@@ -65,7 +65,12 @@ const EmailBox = (props) => {
           </Box>
           <Box width="100%">
             <Flex justifyContent="space-between">
-              <Text color={tbtn} fontSize="md">
+              <Text
+                color={tbtn}
+                fontSize="md"
+                fontFamily="Poppins"
+                fontWeight={data?.read ? "regular" : "bold"}
+              >
                 {currentLocation === "trash"
                   ? initialLocation === "inbox"
                     ? data?.senderName
@@ -74,17 +79,35 @@ const EmailBox = (props) => {
                   ? data?.senderName
                   : data?.receiverName}
               </Text>
-              <Text color={tbtn} fontSize="sm" mr={3}>
+              <Text
+                color={tbtn}
+                fontSize="sm"
+                mr={3}
+                fontFamily="Poppins"
+                fontWeight={data?.read ? "regular" : "bold"}
+              >
                 {timing && timing}
               </Text>
             </Flex>
             <Flex>
-              <Text color={tbtn} fontSize="sm" width="100%">
+              <Text
+                color={tbtn}
+                fontSize="sm"
+                width="100%"
+                fontFamily="Poppins"
+                fontWeight={data?.read ? "regular" : "bold"}
+              >
                 {data?.title}
               </Text>
             </Flex>
             <Flex>
-              <Text color={tbtn} fontSize="sm" noOfLines={2}>
+              <Text
+                fontWeight={data?.read ? "regular" : "bold"}
+                color={tbtn}
+                fontSize="sm"
+                noOfLines={2}
+                fontFamily="Poppins"
+              >
                 {data?.message}
               </Text>
             </Flex>

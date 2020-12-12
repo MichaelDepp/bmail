@@ -9,6 +9,7 @@ import {
   Box,
   Center,
   Container,
+  IconButton,
   Flex,
   Input,
   Textarea,
@@ -20,15 +21,20 @@ import react, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
+import Vocal from "@untemps/react-vocal";
+import { HiMicrophone, HiOutlineMicrophone } from "react-icons/hi";
 import { useRouter } from "next/router";
 
 const Compose = (props) => {
   const { register, handleSubmit, watch, errors } = useForm();
   const { colorMode, toggleColorMode } = useColorMode();
   const [exists, setExists] = useState(false);
-  const [receiver, setReceiver] = useState(null);
-  const [message, setMessage] = useState(null);
-  const [subject, setSubject] = useState(null);
+  const [receiver, setReceiver] = useState("");
+  const [message, setMessage] = useState("");
+  const [subject, setSubject] = useState("");
+  const [speak, setSpeak] = useState(false);
+  const [received, setReceived] = useState("");
+  const [receiverFin, setReceiverFin] = useState(false);
   const bg = useColorModeValue("#101010", "#F8F8F8");
   const color = useColorModeValue("#101010", "#F8F8F8");
   const btn = "#FE5454";
@@ -60,6 +66,12 @@ const Compose = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (receiverFin) {
+      onType(receiver);
+    }
+  });
+
   const onSubmit = (data) => {
     if (exists) {
       const composeData = {
@@ -82,11 +94,11 @@ const Compose = (props) => {
   };
 
   const onType = (data) => {
-    console.log("=====blurrrrr======", data.target.value);
-    if (data.target.value?.length > 0) {
-      console.log("entereddd handlee", data.target.value);
+    console.log("=====blurrrrr======", receiver);
+    if (receiver?.length > 0) {
+      console.log("entereddd handlee", receiver);
       axios
-        .post(api_key + "emailidcheck", { email: data.target.value })
+        .post(api_key + "emailidcheck", { email: receiver })
         .then((res) => {
           if (res.data.message === "exists") {
             setExists(true);
@@ -102,6 +114,7 @@ const Compose = (props) => {
           console.log(err.data);
         });
     }
+    setReceiverFin(false);
   };
 
   const onSendmail = (composeData) => {
@@ -151,7 +164,7 @@ const Compose = (props) => {
   };
 
   const onChangeReceiver = (text) => {
-    setReceiver(text.target.value);
+    setReceiver(text.target.value.toLowerCase());
   };
 
   const onChangeSubject = (text) => {
@@ -162,6 +175,50 @@ const Compose = (props) => {
     setMessage(text.target.value);
   };
 
+  const speakNow = () => {
+    console.log("speakkkk triggered");
+    setReceived("");
+    setSpeak(true);
+  };
+
+  const stopNow = (value) => {
+    console.log(value);
+    if (value.search("receiver") === 0) {
+      if (value.slice(8).trim() === "clear") {
+        setReceiver("");
+      } else if (value.slice(8).trim() === "finish") {
+        setReceiver(receiver + "@zapp.com");
+        setReceiverFin(true);
+      } else {
+        setReceiver(receiver + value.slice(8).trim().toLowerCase());
+      }
+    } else if (value.search("subject") === 0) {
+      if (value.slice(7).trim() === "clear") {
+        setSubject("");
+      } else {
+        if (subject === "") {
+          setSubject(subject + value.slice(7).trim());
+        } else {
+          setSubject(subject + value.slice(7));
+        }
+      }
+    } else if (value.search("message") === 0) {
+      if (value.slice(7).trim() === "clear") {
+        setMessage("");
+      } else {
+        if (message === "") {
+          setMessage(message + value.slice(7).trim());
+        } else {
+          setMessage(message + value.slice(7));
+        }
+      }
+    } else {
+      console.log("message cant categorized");
+    }
+    setSpeak(false);
+    console.log("=======================>", received);
+  };
+
   const darkField = (
     <>
       <Input
@@ -170,7 +227,7 @@ const Compose = (props) => {
         onChange={onChangeReceiver}
         onBlur={onType}
         value={receiver}
-        placeholder="To"
+        placeholder="Receiver"
         border="none"
         size="lg"
         background={cbox}
@@ -232,7 +289,7 @@ const Compose = (props) => {
         value={receiver}
         ref={register({ required: true })}
         onChange={onChangeReceiver}
-        placeholder="To"
+        placeholder="Receiver"
         onBlur={onType}
         border="none"
         size="lg"
@@ -303,6 +360,31 @@ const Compose = (props) => {
             Compose
           </Heading>
         </Box>
+        <Center>
+          <Vocal onStart={speakNow} onResult={stopNow}>
+            {(start, stop) => {
+              return speak ? (
+                <IconButton
+                  onClick={stop}
+                  colorScheme="none"
+                  color={btn}
+                  fontSize="3xl"
+                  _focus={{ outline: "none" }}
+                  icon={<HiMicrophone></HiMicrophone>}
+                ></IconButton>
+              ) : (
+                <IconButton
+                  onClick={start}
+                  colorScheme="none"
+                  color={btn}
+                  fontSize="3xl"
+                  _focus={{ outline: "none" }}
+                  icon={<HiOutlineMicrophone></HiOutlineMicrophone>}
+                ></IconButton>
+              );
+            }}
+          </Vocal>
+        </Center>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box mt={8}>
             <Stack spacing={3}>

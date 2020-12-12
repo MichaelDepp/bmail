@@ -22,6 +22,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import Layout from "../components/Layout";
@@ -32,6 +33,7 @@ import {
   RiShareForwardFill,
   RiReplyFill,
   RiDeleteBin5Fill,
+  RiExchangeFundsFill,
 } from "react-icons/ri";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -65,6 +67,7 @@ function Email(props) {
   const { api_key, currentUser, talk, setTalk } = props;
   const router = useRouter();
   const slug = router.query.slug;
+  const toast = useToast();
   let emailMode;
   let timing;
 
@@ -140,6 +143,66 @@ function Email(props) {
         cerita: email?.message,
       },
     });
+  };
+
+  const onMove = () => {
+    axios
+      .post(api_key + "trashrestore", {
+        userid: currentUser,
+        emailid: email?.id,
+        location:
+          email?.currentLocation === "trash" ? email?.initialLocation : "trash",
+      })
+      .then((res) => {
+        if (res.data.message === "moved") {
+          if (email?.currentLocation === "trash") {
+            toast({
+              title: "Email Restored Back",
+              description: "Your email successfully restored",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: "Email Moved To Trash",
+              description: "Your message successfully trashed",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+          gotoCurrentLocation();
+        }
+      })
+      .catch((err) => console.log(err.data));
+  };
+
+  const onDeletePerm = () => {
+    axios
+      .post(api_key + "delete", {
+        userid: currentUser,
+        emailid: email?.id,
+      })
+      .then((res) => {
+        if (res.data.message === "deleted") {
+          toast({
+            title: "Email Deleted Permenantly!",
+            description: "Your message successfully deleted permenantly",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          gotoCurrentLocation();
+        }
+      })
+      .catch((err) => console.log(err.data));
+  };
+
+  const gotoCurrentLocation = () => {
+    setTimeout(function () {
+      router.push("/" + email?.currentLocation);
+    }, 3000);
   };
 
   return (
@@ -244,32 +307,58 @@ function Email(props) {
             <DrawerContent bg={navclr}>
               <Center h="100%">
                 <Stack direction="column" spacing={4} my={5}>
-                  <Button
-                    onClick={onReply}
-                    color={btn}
-                    colorScheme="none"
-                    _focus={{ outline: "none", background: "transparent" }}
-                    rightIcon={<RiReplyFill />}
-                  >
-                    Reply
-                  </Button>
-                  <Button
-                    onClick={onForward}
-                    color={btn}
-                    colorScheme="none"
-                    _focus={{ outline: "none", background: "transparent" }}
-                    rightIcon={<RiShareForwardFill />}
-                  >
-                    Forward
-                  </Button>
-                  <Button
-                    color={btn}
-                    colorScheme="none"
-                    _focus={{ outline: "none", background: "transparent" }}
-                    rightIcon={<RiDeleteBin5Fill />}
-                  >
-                    Trash
-                  </Button>
+                  {email?.currentLocation === "trash" ? (
+                    <>
+                      <Button
+                        onClick={onMove}
+                        color={btn}
+                        colorScheme="none"
+                        _focus={{ outline: "none", background: "transparent" }}
+                        rightIcon={<RiExchangeFundsFill />}
+                      >
+                        Restore
+                      </Button>
+                      <Button
+                        onClick={onDeletePerm}
+                        color={btn}
+                        colorScheme="none"
+                        _focus={{ outline: "none", background: "transparent" }}
+                        rightIcon={<RiDeleteBin5Fill />}
+                      >
+                        Delete Permenantly
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={onReply}
+                        color={btn}
+                        colorScheme="none"
+                        _focus={{ outline: "none", background: "transparent" }}
+                        rightIcon={<RiReplyFill />}
+                      >
+                        Reply
+                      </Button>
+                      <Button
+                        onClick={onForward}
+                        color={btn}
+                        colorScheme="none"
+                        _focus={{ outline: "none", background: "transparent" }}
+                        rightIcon={<RiShareForwardFill />}
+                      >
+                        Forward
+                      </Button>
+                      <Button
+                        onClick={onMove}
+                        color={btn}
+                        colorScheme="none"
+                        _focus={{ outline: "none", background: "transparent" }}
+                        rightIcon={<RiDeleteBin5Fill />}
+                      >
+                        Trash
+                      </Button>
+                    </>
+                  )}
                 </Stack>
               </Center>
             </DrawerContent>
