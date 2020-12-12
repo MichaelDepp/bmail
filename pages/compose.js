@@ -21,7 +21,7 @@ import react, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
-import Vocal from "@untemps/react-vocal";
+import Vocal from "../@untemps/react-vocal";
 import { HiMicrophone, HiOutlineMicrophone } from "react-icons/hi";
 import { useRouter } from "next/router";
 
