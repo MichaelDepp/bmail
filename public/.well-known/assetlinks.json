@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.bmail.twa",
+      "sha256_cert_fingerprints": [
+        "FF:66:1A:AF:CC:90:60:8D:E3:3F:21:C7:7E:40:D8:52:0C:36:48:56:8C:B4:CD:B7:A9:98:31:2C:58:9F:43:FB"
+      ]
+    }
+  }
+]
