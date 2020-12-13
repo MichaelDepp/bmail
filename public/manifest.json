@@ -3,7 +3,7 @@
   "background_color": "#101010",
   "display": "fullscreen",
   "scope": "/",
-  "start_url": "http://localhost:3000",
+  "start_url": "https://bmail.vercel.app/",
   "name": "Zapp",
   "app_name": "Zapp",
   "short_name": "Zapp",
