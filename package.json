@@ -20,6 +20,7 @@
     "axios": "^0.21.0",
     "framer-motion": "^2.9.4",
     "hamburger-react": "^2.3.0",
+    "localStorage": "^1.0.4",
     "moment": "^2.29.1",
     "next": "^10.0.1",
     "react": "^17.0.1",

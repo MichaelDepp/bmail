@@ -15,6 +15,7 @@ import react, { useEffect } from "react";
 import Signlayout from "../components/Signlayout";
 import { AiFillThunderbolt } from "react-icons/ai";
 import axios from "axios";
+import localStorage from "localStorage";
 import { useForm } from "react-hook-form";
 
 const Index = (props) => {
@@ -34,12 +35,23 @@ const Index = (props) => {
   );
   const router = useRouter();
 
-  const { setLoggedIn, api_key, setCurrentUser, currentUser } = props;
+  const { setLoggedIn, loggedIn, api_key, setCurrentUser, currentUser } = props;
 
-  const checkLoggedin = () => {
-    if (props.loggedIn == true) {
-      router.push("/sent");
+  useEffect(() => {
+    if (loggedIn) {
+      router.push("/inbox");
     }
+  });
+
+  const setLocal = (username) => {
+    localStorage.setItem(
+      "zapp_login",
+      JSON.stringify({
+        user: username,
+        login: true,
+        expires: new Date(Date.now() + 3600000 * 24 * 7),
+      })
+    );
   };
 
   const toast = useToast();
@@ -48,8 +60,9 @@ const Index = (props) => {
     axios
       .post(api_key, data)
       .then((res) => {
-        setCurrentUser(res.data.user);
         if (res.data.message === "success") {
+          setLocal(res.data.user);
+          setCurrentUser(res.data.user);
           toast({
             title: "Login Succesfull",
             description: "You're succefully logged in.",
@@ -166,10 +179,6 @@ const Index = (props) => {
       />
     </>
   );
-
-  useEffect(() => {
-    checkLoggedin();
-  });
 
   return (
     <Signlayout>

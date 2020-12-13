@@ -2,7 +2,11 @@ import * as React from "react";
 import Head from "next/head";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import "regenerator-runtime/runtime";
+import localStorage from "localStorage";
+import moment from "moment";
 import "../styles/style.css";
+
+const localkey = JSON.parse(localStorage.getItem("zapp_login"));
 
 const customTheme = extendTheme({
   colors: {
@@ -27,12 +31,19 @@ const customTheme = extendTheme({
 });
 
 function App({ Component, pageProps }) {
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [currentUser, setCurrentUser] = React.useState();
+  const [loggedIn, setLoggedIn] = React.useState(
+    localkey === null ? false : true
+  );
+  const [currentUser, setCurrentUser] = React.useState(
+    localkey && localkey.user
+  );
   const [talk, setTalk] = React.useState(false);
+
   console.log("Hello from APP");
+  console.log("====curentttt====", loggedIn);
   const api_key = process.env.NEXT_PUBLIC_ZAPP_API;
   console.log("curent API==================>", api_key);
+
   return (
     <ChakraProvider theme={customTheme}>
       <Head>

@@ -39,6 +39,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Artyom from "artyom.js";
 import moment from "moment";
+import _ from "lodash";
 
 const Jarvis = new Artyom();
 
@@ -64,12 +65,18 @@ function Email(props) {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
-  const { api_key, currentUser, talk, setTalk } = props;
+  const { api_key, currentUser, loggedIn, talk, setTalk } = props;
   const router = useRouter();
   const slug = router.query.slug;
   const toast = useToast();
   let emailMode;
   let timing;
+
+  useEffect(() => {
+    if (loggedIn == false) {
+      useRouter().push("/");
+    }
+  });
 
   if (email?.timestamp) {
     timing = moment(email?.timestamp).fromNow();
@@ -89,14 +96,18 @@ function Email(props) {
   };
 
   useEffect(() => {
-    fetchMail();
+    if (loggedIn) {
+      fetchMail();
+    }
   }, []);
 
   useEffect(() => {
-    if (talk) {
-      onSay();
-    } else {
-      Jarvis.shutUp();
+    if (!_.isEmpty(email)) {
+      if (talk) {
+        onSay();
+      } else {
+        Jarvis.shutUp();
+      }
     }
   });
 

@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import EmailBox from "../components/EmailBox";
+import { useRouter } from "next/router";
 import react, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -26,7 +27,14 @@ function Trash(props) {
   const color = useColorModeValue("#F8F8F8", "#101010");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
-  const { setLoggedIn, api_key, currentUser } = props;
+  const { setLoggedIn, api_key, currentUser, loggedIn } = props;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loggedIn == false) {
+      router.push("/");
+    }
+  });
 
   const fetchTrash = () => {
     axios
@@ -40,7 +48,9 @@ function Trash(props) {
   };
 
   useEffect(() => {
-    fetchTrash();
+    if (loggedIn) {
+      fetchTrash();
+    }
   }, []);
 
   if (loading) {

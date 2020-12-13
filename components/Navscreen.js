@@ -25,7 +25,7 @@ function Navscreen(props) {
       <Box justify="center" mb="50px">
         <VStack>
           <Linkpage
-            page={"/"}
+            page={"/sent"}
             name={"Sent"}
             color={btn}
             onClose={props.onClose}

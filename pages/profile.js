@@ -17,6 +17,8 @@ import Layout from "../components/Layout";
 import Link from "next/link";
 import react, { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
+import localStorage from "localStorage";
 import Userinfo from "../components/Userinfo";
 
 const Profile = (props) => {
@@ -36,7 +38,14 @@ const Profile = (props) => {
     "rgba(210, 210, 210, 0.8)",
     "rgba(64, 64, 64, 0.8)"
   );
-  const { setLoggedIn, api_key, currentUser } = props;
+  const { setLoggedIn, loggedIn, api_key, currentUser, setCurrentUser } = props;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loggedIn == false) {
+      router.push("/");
+    }
+  });
 
   const fetchProfile = () => {
     axios
@@ -50,12 +59,21 @@ const Profile = (props) => {
   };
 
   useEffect(() => {
-    fetchProfile();
+    if (loggedIn) {
+      fetchProfile();
+    }
   }, []);
 
   if (loading) {
     return <p>loading</p>;
   }
+
+  const onLogout = () => {
+    setLoggedIn(false);
+    setCurrentUser(null);
+    localStorage.removeItem("zapp_login");
+    router.push("/");
+  };
 
   return (
     <Layout>
@@ -72,30 +90,28 @@ const Profile = (props) => {
         </Box>
         <Userinfo data={data} />
         <Center mt={10}>
-          <Link href="/">
-            <Button
-              w={"50%"}
-              size="md"
-              borderRadius={5}
-              fontWeight="bold"
-              fontFamily={"Poppins"}
-              fontSize={"xl"}
-              bg={btn}
-              color={color}
-              _hover={{ bg: "#f76565" }}
-              _active={{
-                bg: { btn },
-                transform: "scale(0.98)",
-              }}
-              _focus={{
-                boxShadow:
-                  "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-              }}
-              type="submit"
-            >
-              Logout
-            </Button>
-          </Link>
+          <Button
+            w={"50%"}
+            size="md"
+            borderRadius={5}
+            fontWeight="bold"
+            fontFamily={"Poppins"}
+            fontSize={"xl"}
+            bg={btn}
+            color={color}
+            _hover={{ bg: "#f76565" }}
+            _active={{
+              bg: { btn },
+              transform: "scale(0.98)",
+            }}
+            _focus={{
+              boxShadow:
+                "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+            }}
+            onClick={onLogout}
+          >
+            Logout
+          </Button>
         </Center>
       </Box>
     </Layout>

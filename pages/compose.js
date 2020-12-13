@@ -51,9 +51,15 @@ const Compose = (props) => {
     "rgba(64, 64, 64, 0.8)"
   );
 
-  const { api_key, currentUser } = props;
+  const { api_key, currentUser, loggedIn } = props;
   const router = useRouter();
   const toast = useToast();
+
+  useEffect(() => {
+    if (loggedIn == false) {
+      router.push("/");
+    }
+  });
 
   const { terima, tajuk, cerita } = router.query;
 
@@ -396,77 +402,81 @@ const Compose = (props) => {
     console.log("===========trasn==========>", transcript);
   };
 
-  return (
-    <Layout>
-      <Box display={"block"}>
-        <Box mb={2}>
-          <Heading
-            fontWeight="bold"
-            textAlign={"left"}
-            fontSize={["xl", "xl", "xl", "xl"]}
-            color={btn}
-          >
-            Compose
-          </Heading>
-        </Box>
-        <Center>
-          {speak ? (
-            <IconButton
-              value="start"
-              onClick={voiceStop}
-              colorScheme="none"
-              color={btn}
-              fontSize="3xl"
-              _focus={{ outline: "none" }}
-              icon={<HiMicrophone></HiMicrophone>}
-            ></IconButton>
-          ) : (
-            <IconButton
-              value="stop"
-              onClick={voiceStart}
-              colorScheme="none"
-              color={btn}
-              fontSize="3xl"
-              _focus={{ outline: "none" }}
-              icon={<HiOutlineMicrophone></HiOutlineMicrophone>}
-            ></IconButton>
-          )}
-        </Center>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box mt={8}>
-            <Stack spacing={3}>
-              {colorMode === "light" ? darkField : lightField}
-            </Stack>
-          </Box>
-          <Center mt={10}>
-            <Button
-              disabled={!exists}
-              w={"50%"}
-              size="md"
-              borderRadius={5}
+  if (loggedIn) {
+    return (
+      <Layout>
+        <Box display={"block"}>
+          <Box mb={2}>
+            <Heading
               fontWeight="bold"
-              fontFamily={"Poppins"}
-              fontSize={"xl"}
-              bg={btn}
-              color={color}
-              _hover={{ bg: "#f76565" }}
-              _active={{
-                bg: { btn },
-                transform: "scale(0.98)",
-              }}
-              _focus={{
-                boxShadow:
-                  "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-              }}
-              type="submit"
+              textAlign={"left"}
+              fontSize={["xl", "xl", "xl", "xl"]}
+              color={btn}
             >
-              Send
-            </Button>
+              Compose
+            </Heading>
+          </Box>
+          <Center>
+            {speak ? (
+              <IconButton
+                value="start"
+                onClick={voiceStop}
+                colorScheme="none"
+                color={btn}
+                fontSize="3xl"
+                _focus={{ outline: "none" }}
+                icon={<HiMicrophone></HiMicrophone>}
+              ></IconButton>
+            ) : (
+              <IconButton
+                value="stop"
+                onClick={voiceStart}
+                colorScheme="none"
+                color={btn}
+                fontSize="3xl"
+                _focus={{ outline: "none" }}
+                icon={<HiOutlineMicrophone></HiOutlineMicrophone>}
+              ></IconButton>
+            )}
           </Center>
-        </form>
-      </Box>
-    </Layout>
-  );
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box mt={8}>
+              <Stack spacing={3}>
+                {colorMode === "light" ? darkField : lightField}
+              </Stack>
+            </Box>
+            <Center mt={10}>
+              <Button
+                disabled={!exists}
+                w={"50%"}
+                size="md"
+                borderRadius={5}
+                fontWeight="bold"
+                fontFamily={"Poppins"}
+                fontSize={"xl"}
+                bg={btn}
+                color={color}
+                _hover={{ bg: "#f76565" }}
+                _active={{
+                  bg: { btn },
+                  transform: "scale(0.98)",
+                }}
+                _focus={{
+                  boxShadow:
+                    "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                }}
+                type="submit"
+              >
+                Send
+              </Button>
+            </Center>
+          </form>
+        </Box>
+      </Layout>
+    );
+  }
+
+  return <p>loading</p>;
 };
 
 export default Compose;

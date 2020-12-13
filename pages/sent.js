@@ -14,6 +14,7 @@ import {
 import Layout from "../components/Layout";
 import EmailBox from "../components/EmailBox";
 import react, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
 
@@ -26,7 +27,14 @@ function Sent(props) {
   const color = useColorModeValue("#F8F8F8", "#101010");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
-  const { setLoggedIn, api_key, currentUser } = props;
+  const { setLoggedIn, loggedIn, api_key, currentUser } = props;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loggedIn == false) {
+      router.push("/");
+    }
+  });
 
   const fetchSent = () => {
     axios
@@ -40,37 +48,41 @@ function Sent(props) {
   };
 
   useEffect(() => {
-    fetchSent();
+    if (loggedIn) {
+      fetchSent();
+    }
   }, []);
 
   if (loading) {
     return <p>loading</p>;
   }
 
-  return (
-    <Layout>
-      <Box display={"block"}>
-        <Box mb={2}>
-          <Heading
-            fontWeight="bold"
-            textAlign={"left"}
-            fontSize={["xl", "xl", "xl", "xl"]}
-            color={btn}
-          >
-            Sent
-          </Heading>
+  if (props.loggedIn) {
+    return (
+      <Layout>
+        <Box display={"block"}>
+          <Box mb={2}>
+            <Heading
+              fontWeight="bold"
+              textAlign={"left"}
+              fontSize={["xl", "xl", "xl", "xl"]}
+              color={btn}
+            >
+              Sent
+            </Heading>
+          </Box>
+          <Box>
+            {sent.sent.map((item, index) => {
+              console.log(item);
+              return (
+                <EmailBox key={index} data={item} name={item.receiverName} />
+              );
+            })}
+          </Box>
         </Box>
-        <Box>
-          {sent.sent.map((item, index) => {
-            console.log(item);
-            return (
-              <EmailBox key={index} data={item} name={item.receiverName} />
-            );
-          })}
-        </Box>
-      </Box>
-    </Layout>
-  );
+      </Layout>
+    );
+  }
 }
 
 export default Sent;

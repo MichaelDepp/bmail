@@ -14,6 +14,7 @@ import {
 import Layout from "../components/Layout";
 import EmailBox from "../components/EmailBox";
 import react, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
 
@@ -26,7 +27,14 @@ function Inbox(props) {
   const color = useColorModeValue("#F8F8F8", "#101010");
   const btn = "#FE5454";
   const sbtn = useColorModeValue("#F8F8F8", "#101010");
-  const { setLoggedIn, api_key, currentUser } = props;
+  const { setLoggedIn, loggedIn, api_key, currentUser } = props;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loggedIn == false) {
+      router.push("/");
+    }
+  });
 
   const fetchInbox = () => {
     axios
@@ -40,7 +48,9 @@ function Inbox(props) {
   };
 
   useEffect(() => {
-    fetchInbox();
+    if (loggedIn) {
+      fetchInbox();
+    }
   }, []);
 
   if (loading) {
