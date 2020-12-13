@@ -1,0 +1,33 @@
+{
+  "theme_color": "#FE5454",
+  "background_color": "#101010",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "http://localhost:3000",
+  "name": "Zapp",
+  "app_name": "Zapp",
+  "short_name": "Zapp",
+  "description": "Zapp Email is the world first small email system tailored for the blind people",
+  "icons": [
+    {
+      "src": "/ico/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ico/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/ico/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/ico/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

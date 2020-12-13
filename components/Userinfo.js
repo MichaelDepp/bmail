@@ -22,9 +22,10 @@ const Userinfo = (props) => {
     <Box mt={6}>
       <Box width={220} mx="auto">
         <Avatar
+          boxSize={"220px"}
           border={"5px #FE5454 solid"}
-          size="4xl"
-          src="./new.png"
+          src="./"
+          size={"2xl"}
           name={data.profile.fname + " " + data.profile.lname}
         />
       </Box>

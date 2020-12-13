@@ -12,6 +12,9 @@ import {
   Flex,
   Input,
   Textarea,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import Link from "next/link";
@@ -20,6 +23,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import localStorage from "localStorage";
 import Userinfo from "../components/Userinfo";
+import Spinner from "../components/Spinner";
 
 const Profile = (props) => {
   const [data, setData] = useState({});
@@ -64,10 +68,6 @@ const Profile = (props) => {
     }
   }, []);
 
-  if (loading) {
-    return <p>loading</p>;
-  }
-
   const onLogout = () => {
     setLoggedIn(false);
     setCurrentUser(null);
@@ -88,31 +88,37 @@ const Profile = (props) => {
             Profile
           </Heading>
         </Box>
-        <Userinfo data={data} />
-        <Center mt={10}>
-          <Button
-            w={"50%"}
-            size="md"
-            borderRadius={5}
-            fontWeight="bold"
-            fontFamily={"Poppins"}
-            fontSize={"xl"}
-            bg={btn}
-            color={color}
-            _hover={{ bg: "#f76565" }}
-            _active={{
-              bg: { btn },
-              transform: "scale(0.98)",
-            }}
-            _focus={{
-              boxShadow:
-                "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-            }}
-            onClick={onLogout}
-          >
-            Logout
-          </Button>
-        </Center>
+        {loading ? (
+          <Spinner></Spinner>
+        ) : (
+          <>
+            <Userinfo data={data} />
+            <Center mt={10}>
+              <Button
+                w={"50%"}
+                size="md"
+                borderRadius={5}
+                fontWeight="bold"
+                fontFamily={"Poppins"}
+                fontSize={"xl"}
+                bg={btn}
+                color={color}
+                _hover={{ bg: "#f76565" }}
+                _active={{
+                  bg: { btn },
+                  transform: "scale(0.98)",
+                }}
+                _focus={{
+                  boxShadow:
+                    "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                }}
+                onClick={onLogout}
+              >
+                Logout
+              </Button>
+            </Center>
+          </>
+        )}
       </Box>
     </Layout>
   );
