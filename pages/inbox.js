@@ -17,6 +17,7 @@ import react, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
+import Spinner from "../components/Spinner";
 
 function Inbox(props) {
   const [inbox, setInbox] = useState({});
@@ -53,9 +54,6 @@ function Inbox(props) {
     }
   }, []);
 
-  if (loading) {
-    return <p>loading</p>;
-  }
   return (
     <Layout>
       <Box display={"block"}>
@@ -69,11 +67,17 @@ function Inbox(props) {
             Inbox
           </Heading>
         </Box>
-        <Box>
-          {inbox.inbox.map((item, index) => {
-            return <EmailBox key={index} data={item} name={item.senderName} />;
-          })}
-        </Box>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Box>
+            {inbox.inbox.map((item, index) => {
+              return (
+                <EmailBox key={index} data={item} name={item.senderName} />
+              );
+            })}
+          </Box>
+        )}
       </Box>
     </Layout>
   );

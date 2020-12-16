@@ -76,6 +76,17 @@ const Compose = (props) => {
       },
     },
     {
+      command: "spell receiver *",
+      callback: (recev) => {
+        if (receiver === "") {
+          setReceiver(recev.replace(/\s/g, "").toLowerCase());
+        } else {
+          setReceiver(receiver + recev.replace(/\s/g, "").toLowerCase());
+        }
+        setSpeak(false);
+      },
+    },
+    {
       command: "finished" || "finish",
       callback: (recev) => {
         setReceiver(receiver + "@zapp.com");
@@ -122,6 +133,13 @@ const Compose = (props) => {
       command: "delete message*",
       callback: (mess) => {
         setMessage("");
+        setSpeak(false);
+      },
+    },
+    {
+      command: "dot",
+      callback: (mess) => {
+        setMessage(message + ".");
         setSpeak(false);
       },
     },
@@ -405,7 +423,7 @@ const Compose = (props) => {
   if (loggedIn) {
     return (
       <Layout>
-        <Box display={"block"}>
+        <Box display={"block"} pb={10}>
           <Box mb={2}>
             <Heading
               fontWeight="bold"

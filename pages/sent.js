@@ -16,6 +16,7 @@ import EmailBox from "../components/EmailBox";
 import react, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Spinner from "../components/Spinner";
 import Link from "next/link";
 
 function Sent(props) {
@@ -53,10 +54,6 @@ function Sent(props) {
     }
   }, []);
 
-  if (loading) {
-    return <p>loading</p>;
-  }
-
   if (props.loggedIn) {
     return (
       <Layout>
@@ -71,14 +68,18 @@ function Sent(props) {
               Sent
             </Heading>
           </Box>
-          <Box>
-            {sent.sent.map((item, index) => {
-              console.log(item);
-              return (
-                <EmailBox key={index} data={item} name={item.receiverName} />
-              );
-            })}
-          </Box>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Box>
+              {sent.sent.map((item, index) => {
+                console.log(item);
+                return (
+                  <EmailBox key={index} data={item} name={item.receiverName} />
+                );
+              })}
+            </Box>
+          )}
         </Box>
       </Layout>
     );

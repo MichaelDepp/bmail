@@ -77,7 +77,7 @@ const Profile = (props) => {
 
   return (
     <Layout>
-      <Box display={"block"}>
+      <Box display={"block"} pb={10}>
         <Box mb={2}>
           <Heading
             fontWeight="bold"

@@ -39,6 +39,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Artyom from "artyom.js";
 import moment from "moment";
+import Spinner from "../components/Spinner";
 import _ from "lodash";
 
 const Jarvis = new Artyom();
@@ -219,162 +220,183 @@ function Email(props) {
   return (
     <Layout talk={talk} setTalk={setTalk}>
       <Box display={"block"}>
-        <Box mb={2} mt={5}>
-          <Heading
-            fontWeight="bold"
-            textAlign={"left"}
-            fontSize={["xl", "xl", "xl", "xl"]}
-            color={btn}
-          >
-            {email?.title}
-          </Heading>
-        </Box>
-        <Box mt={5}>
-          <Flex justifyContent="space-between">
-            <Flex>
-              <Box>
-                <Avatar
-                  src={".com"}
-                  name={
-                    email?.currentLocation === "trash"
-                      ? email?.initialLocation === "inbox"
-                        ? email?.senderName
-                        : email?.receiverName
-                      : email?.currentLocation === "inbox"
-                      ? email?.senderName
-                      : email?.receiverName
-                  }
-                />
-              </Box>
-              <Box ml={2}>
-                <Flex alignItems="center">
-                  <Text fontFamily="Poppins" fontWeight="semi" color={sbtn}>
-                    {email?.currentLocation === "trash"
-                      ? email?.initialLocation === "inbox"
-                        ? email?.senderName
-                        : email?.receiverName
-                      : email?.currentLocation === "inbox"
-                      ? email?.senderName
-                      : email?.receiverName}
-                  </Text>
-                  <Text
-                    fontFamily="Poppins"
-                    fontWeight="light"
-                    fontSize="0.8rem"
-                    color={sbtn}
-                    ml={2}
-                  >
-                    {timing && timing}
-                  </Text>
-                </Flex>
-                <Text
-                  fontFamily="Poppins"
-                  fontWeight="light"
-                  fontSize="0.8rem"
-                  color={sbtn}
-                >
-                  {email?.currentLocation === "trash"
-                    ? email?.initialLocation === "inbox"
-                      ? email?.senderEmail
-                      : email?.receiverEmail
-                    : email?.currentLocation === "inbox"
-                    ? email?.senderEmail
-                    : email?.receiverEmail}
-                </Text>
-              </Box>
-            </Flex>
-            <Box>
-              <IconButton
-                onClick={onOpen}
-                colorScheme="none"
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <Box mb={2} mt={5}>
+              <Heading
+                fontWeight="bold"
+                textAlign={"left"}
+                fontSize={["xl", "xl", "xl", "xl"]}
                 color={btn}
-                size="lg"
-                _focus={{ outline: "none" }}
-                icon={<SettingsIcon />}
-              />
-            </Box>
-          </Flex>
-          <Stack spacing={3} mt={5}>
-            <Box width="100%">
-              <Text
-                textAlign="left"
-                fontFamily="Poppins"
-                fontWeight="regular"
-                fontSize="md"
-                color={sbtn}
               >
-                {email?.message}
-              </Text>
+                {email?.title}
+              </Heading>
             </Box>
-          </Stack>
-        </Box>
-        <Drawer
-          placement={placement}
-          onClose={onClose}
-          isOpen={isOpen}
-          size={"xl"}
-        >
-          <DrawerOverlay>
-            <DrawerContent bg={navclr}>
-              <Center h="100%">
-                <Stack direction="column" spacing={4} my={5}>
-                  {email?.currentLocation === "trash" ? (
-                    <>
-                      <Button
-                        onClick={onMove}
-                        color={btn}
-                        colorScheme="none"
-                        _focus={{ outline: "none", background: "transparent" }}
-                        rightIcon={<RiExchangeFundsFill />}
+            <Box mt={5}>
+              <Flex justifyContent="space-between">
+                <Flex>
+                  <Box>
+                    <Avatar
+                      src={".com"}
+                      name={
+                        email?.currentLocation === "trash"
+                          ? email?.initialLocation === "inbox"
+                            ? email?.senderName
+                            : email?.receiverName
+                          : email?.currentLocation === "inbox"
+                          ? email?.senderName
+                          : email?.receiverName
+                      }
+                    />
+                  </Box>
+                  <Box ml={2}>
+                    <Flex alignItems="center">
+                      <Text fontFamily="Poppins" fontWeight="semi" color={sbtn}>
+                        {email?.currentLocation === "trash"
+                          ? email?.initialLocation === "inbox"
+                            ? email?.senderName
+                            : email?.receiverName
+                          : email?.currentLocation === "inbox"
+                          ? email?.senderName
+                          : email?.receiverName}
+                      </Text>
+                      <Text
+                        fontFamily="Poppins"
+                        fontWeight="light"
+                        fontSize="0.8rem"
+                        color={sbtn}
+                        ml={2}
                       >
-                        Restore
-                      </Button>
-                      <Button
-                        onClick={onDeletePerm}
-                        color={btn}
-                        colorScheme="none"
-                        _focus={{ outline: "none", background: "transparent" }}
-                        rightIcon={<RiDeleteBin5Fill />}
-                      >
-                        Delete Permenantly
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        onClick={onReply}
-                        color={btn}
-                        colorScheme="none"
-                        _focus={{ outline: "none", background: "transparent" }}
-                        rightIcon={<RiReplyFill />}
-                      >
-                        Reply
-                      </Button>
-                      <Button
-                        onClick={onForward}
-                        color={btn}
-                        colorScheme="none"
-                        _focus={{ outline: "none", background: "transparent" }}
-                        rightIcon={<RiShareForwardFill />}
-                      >
-                        Forward
-                      </Button>
-                      <Button
-                        onClick={onMove}
-                        color={btn}
-                        colorScheme="none"
-                        _focus={{ outline: "none", background: "transparent" }}
-                        rightIcon={<RiDeleteBin5Fill />}
-                      >
-                        Trash
-                      </Button>
-                    </>
-                  )}
-                </Stack>
-              </Center>
-            </DrawerContent>
-          </DrawerOverlay>
-        </Drawer>
+                        {timing && timing}
+                      </Text>
+                    </Flex>
+                    <Text
+                      fontFamily="Poppins"
+                      fontWeight="light"
+                      fontSize="0.8rem"
+                      color={sbtn}
+                    >
+                      {email?.currentLocation === "trash"
+                        ? email?.initialLocation === "inbox"
+                          ? email?.senderEmail
+                          : email?.receiverEmail
+                        : email?.currentLocation === "inbox"
+                        ? email?.senderEmail
+                        : email?.receiverEmail}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Box>
+                  <IconButton
+                    onClick={onOpen}
+                    colorScheme="none"
+                    color={btn}
+                    size="lg"
+                    _focus={{ outline: "none" }}
+                    icon={<SettingsIcon />}
+                  />
+                </Box>
+              </Flex>
+              <Stack spacing={3} mt={5}>
+                <Box width="100%">
+                  <Text
+                    textAlign="left"
+                    fontFamily="Poppins"
+                    fontWeight="regular"
+                    fontSize="md"
+                    color={sbtn}
+                  >
+                    {email?.message}
+                  </Text>
+                </Box>
+              </Stack>
+            </Box>
+            <Drawer
+              placement={placement}
+              onClose={onClose}
+              isOpen={isOpen}
+              size={"xl"}
+            >
+              <DrawerOverlay>
+                <DrawerContent bg={navclr}>
+                  <Center h="100%">
+                    <Stack direction="column" spacing={4} my={5}>
+                      {email?.currentLocation === "trash" ? (
+                        <>
+                          <Button
+                            onClick={onMove}
+                            color={btn}
+                            colorScheme="none"
+                            _focus={{
+                              outline: "none",
+                              background: "transparent",
+                            }}
+                            rightIcon={<RiExchangeFundsFill />}
+                          >
+                            Restore
+                          </Button>
+                          <Button
+                            onClick={onDeletePerm}
+                            color={btn}
+                            colorScheme="none"
+                            _focus={{
+                              outline: "none",
+                              background: "transparent",
+                            }}
+                            rightIcon={<RiDeleteBin5Fill />}
+                          >
+                            Delete Permenantly
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={onReply}
+                            color={btn}
+                            colorScheme="none"
+                            _focus={{
+                              outline: "none",
+                              background: "transparent",
+                            }}
+                            rightIcon={<RiReplyFill />}
+                          >
+                            Reply
+                          </Button>
+                          <Button
+                            onClick={onForward}
+                            color={btn}
+                            colorScheme="none"
+                            _focus={{
+                              outline: "none",
+                              background: "transparent",
+                            }}
+                            rightIcon={<RiShareForwardFill />}
+                          >
+                            Forward
+                          </Button>
+                          <Button
+                            onClick={onMove}
+                            color={btn}
+                            colorScheme="none"
+                            _focus={{
+                              outline: "none",
+                              background: "transparent",
+                            }}
+                            rightIcon={<RiDeleteBin5Fill />}
+                          >
+                            Trash
+                          </Button>
+                        </>
+                      )}
+                    </Stack>
+                  </Center>
+                </DrawerContent>
+              </DrawerOverlay>
+            </Drawer>
+          </>
+        )}
       </Box>
     </Layout>
   );

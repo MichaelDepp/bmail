@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import react, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Spinner from "../components/Spinner";
 
 function Trash(props) {
   const [trash, setTrash] = useState({});
@@ -53,9 +54,6 @@ function Trash(props) {
     }
   }, []);
 
-  if (loading) {
-    return <p>loading</p>;
-  }
   return (
     <Layout>
       <Box display={"block"}>
@@ -69,11 +67,15 @@ function Trash(props) {
             Trash
           </Heading>
         </Box>
-        <Box>
-          {trash.trash.map((item, index) => {
-            return <EmailBox key={index} data={item} />;
-          })}
-        </Box>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Box>
+            {trash.trash.map((item, index) => {
+              return <EmailBox key={index} data={item} />;
+            })}
+          </Box>
+        )}
       </Box>
     </Layout>
   );
