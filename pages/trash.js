@@ -79,6 +79,8 @@ function Trash(props) {
       </Box>
     </Layout>
   );
+
+  return <p>Loading</p>;
 }
 
 export default Trash;

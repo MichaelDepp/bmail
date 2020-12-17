@@ -84,6 +84,8 @@ function Sent(props) {
       </Layout>
     );
   }
+
+  return <p>Loading</p>;
 }
 
 export default Sent;
