@@ -166,9 +166,9 @@ const Compose = (props) => {
 
   const { transcript } = useSpeechRecognition({ commands });
 
-  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-    return null;
-  }
+  // if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+  //   return null;
+  // } this line breaks iphone
 
   useEffect(() => {
     if (terima) {
