@@ -112,6 +112,24 @@ function Email(props) {
     }
   });
 
+  const downloadFile = () => {
+    console.log("fileedddd trifgee");
+    axios({
+      url: email?.file,
+      method: "GET",
+      responseType: "blob",
+    })
+      .then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "file." + email?.fileext);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch();
+  };
+
   if (email?.currentLocation === "trash") {
     if (email?.initialLocation === "inbox") {
       emailMode = "inbox";
@@ -312,33 +330,32 @@ function Email(props) {
                   </Text>
                 </Box>
                 {email?.file && (
-                  <a href={email?.file} download="attachment_zapp">
-                    <Flex pt={5}>
-                      <Button
-                        w={["50%", "30%", "25%", "15%"]}
-                        rightIcon={<DownloadIcon />}
-                        size="sm"
-                        borderRadius={5}
-                        fontWeight="regular"
-                        fontFamily={"Poppins"}
-                        fontSize={"md"}
-                        border="2px solid #f76565"
-                        bg={"none"}
-                        color={btn}
-                        _hover={{ bg: "#f76565", color: "#101010" }}
-                        _active={{
-                          bg: { btn },
-                          transform: "scale(0.98)",
-                        }}
-                        _focus={{
-                          boxShadow:
-                            "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                        }}
-                      >
-                        Download File
-                      </Button>
-                    </Flex>
-                  </a>
+                  <Flex pt={5}>
+                    <Button
+                      onClick={downloadFile}
+                      w={["50%", "30%", "25%", "15%"]}
+                      rightIcon={<DownloadIcon />}
+                      size="sm"
+                      borderRadius={5}
+                      fontWeight="regular"
+                      fontFamily={"Poppins"}
+                      fontSize={"md"}
+                      border="2px solid #f76565"
+                      bg={"none"}
+                      color={btn}
+                      _hover={{ bg: "#f76565", color: "#101010" }}
+                      _active={{
+                        bg: { btn },
+                        transform: "scale(0.98)",
+                      }}
+                      _focus={{
+                        boxShadow:
+                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                      }}
+                    >
+                      Download File
+                    </Button>
+                  </Flex>
                 )}
               </Stack>
             </Box>
