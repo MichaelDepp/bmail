@@ -24,7 +24,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { SettingsIcon, DownloadIcon } from "@chakra-ui/icons";
 import Layout from "../components/Layout";
 import react, { useState, useEffect, useCallback } from "react";
 import EmailBox from "../components/EmailBox";
@@ -311,6 +311,35 @@ function Email(props) {
                     {email?.message}
                   </Text>
                 </Box>
+                {email?.file && (
+                  <a href={email?.file} download="attachment_zapp">
+                    <Flex pt={5}>
+                      <Button
+                        w={["50%", "30%", "25%", "15%"]}
+                        rightIcon={<DownloadIcon />}
+                        size="sm"
+                        borderRadius={5}
+                        fontWeight="regular"
+                        fontFamily={"Poppins"}
+                        fontSize={"md"}
+                        border="2px solid #f76565"
+                        bg={"none"}
+                        color={btn}
+                        _hover={{ bg: "#f76565", color: "#101010" }}
+                        _active={{
+                          bg: { btn },
+                          transform: "scale(0.98)",
+                        }}
+                        _focus={{
+                          boxShadow:
+                            "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                        }}
+                      >
+                        Download File
+                      </Button>
+                    </Flex>
+                  </a>
+                )}
               </Stack>
             </Box>
             <Drawer
