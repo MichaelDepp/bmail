@@ -146,7 +146,7 @@ function Email(props) {
     if (emailMode === "inbox") {
       Jarvis.say("Email from" + email?.senderName);
     } else {
-      Jarvis.say("Email from" + email?.receiverName);
+      Jarvis.say("Email sent to" + email?.receiverName);
     }
     Jarvis.say("Email title" + email?.title);
     Jarvis.say("Email message" + email?.message);
