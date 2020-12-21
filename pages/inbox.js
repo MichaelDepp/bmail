@@ -70,7 +70,7 @@ function Inbox(props) {
         {loading ? (
           <Spinner />
         ) : (
-          <Box>
+          <Box pb={10}>
             {inbox.inbox.map((item, index) => {
               return (
                 <EmailBox key={index} data={item} name={item.senderName} />

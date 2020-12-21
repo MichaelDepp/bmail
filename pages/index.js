@@ -191,12 +191,23 @@ const Index = (props) => {
               onClick={toggleColorMode}
             />
           </Flex>
+          <Box mt={2}>
+            <Text
+              textAlign="center"
+              color={btn}
+              fontFamily={"Poppins"}
+              fontWeight="black"
+              fontSize={"4xl"}
+            >
+              ZAPP
+            </Text>
+          </Box>
           <Box mt={10}>
             <Text
               textAlign="center"
               color={btn}
               fontFamily={"Poppins"}
-              fontWeight="bold"
+              fontWeight="regular"
               fontSize={"2xl"}
             >
               SIGN IN

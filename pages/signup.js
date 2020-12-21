@@ -87,7 +87,7 @@ const Signup = (props) => {
                 textAlign="center"
                 color={level === 3 ? sucessClr : btn}
                 fontFamily={"Poppins"}
-                fontWeight="bold"
+                fontWeight="regular"
                 fontSize={"2xl"}
               >
                 {level === 3

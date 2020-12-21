@@ -70,7 +70,7 @@ function Trash(props) {
         {loading ? (
           <Spinner />
         ) : (
-          <Box>
+          <Box pb={10}>
             {trash.trash.map((item, index) => {
               return <EmailBox key={index} data={item} />;
             })}

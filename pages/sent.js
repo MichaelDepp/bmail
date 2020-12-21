@@ -71,7 +71,7 @@ function Sent(props) {
           {loading ? (
             <Spinner />
           ) : (
-            <Box>
+            <Box pb={10}>
               {sent.sent.map((item, index) => {
                 console.log(item);
                 return (
